@@ -1,7 +1,7 @@
 package org.intrade.data
 
 trait API {
-  def activeContractListing(optionalEventClass: Int = 0): Response[Contract]
+  def activeContractListing(optionalEventClass: Int = 0): Response[EventClass]
 
   def priceInformation(contractIds: Seq[String], timestamp: Long = 0, depth: Long = 0): Response[PriceInformation]
 
