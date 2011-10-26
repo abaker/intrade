@@ -1,5 +1,47 @@
 package org.intrade.data
 
-trait PriceInformation {
+import xml.Node
+import org.intrade.Implicits._
+import org.intrade.ContractState._
 
+object PriceInformation {
+  def apply(node: Node) = new Response[PriceInformation] {
+    val timestamp: Option[Long] = node.attribute("lastUpdateTime")
+    val response: Node = node
+    val values: Seq[PriceInformation] = node \ "contractInfo" map node2PriceInformation
+  }
+
+  private def node2PriceInformation(xml: Node) = new PriceInformation {
+    val vol: String = xml.attribute("vol")
+    val state: ContractState = xml.attribute("state")
+    val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
+    val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
+    val conID: String = xml.attribute("conID")
+    val close: Option[BigDecimal] = xml.attribute("close")
+    val symbol: String = xml \ "symbol"
+    val bids: Seq[BookLevel] = xml \ "orderBook" \ "bids" \ "bid" map node2BookLevel
+    val offers: Seq[BookLevel] = xml \ "orderBook" \ "offers" \ "offer" map node2BookLevel
+  }
+
+  private def node2BookLevel(node: Node) = BookLevel(node.attribute("price"), node.attribute("quantity"))
+}
+
+trait PriceInformation {
+  def vol: String
+
+  def state: ContractState
+
+  def lstTrdTme: Option[Long]
+
+  def lstTrdPrc: Option[BigDecimal]
+
+  def conID: String
+
+  def close: Option[BigDecimal]
+
+  def symbol: String
+
+  def bids: Seq[BookLevel]
+
+  def offers: Seq[BookLevel]
 }
