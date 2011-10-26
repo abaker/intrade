@@ -2,3 +2,5 @@ target/
 project/boot/
 lib_managed/
 out/
+.idea/
+*.iml
