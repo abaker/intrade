@@ -6,31 +6,19 @@ import org.intrade.ContractState
 class PriceInformationTest extends FunSuite {
   test("parse price information") {
     val node =
-      <ContractBookInfo lastUpdateTime="1319552241395">
-        <contractInfo vol="31411" state="O" lstTrdTme="1319562253618" lstTrdPrc="3.8" conID="749136" close="3.0">
-          <symbol>2012.PRES.CAIN</symbol>
-          <orderBook>
-            <bids>
-              <bid quantity="16" price="3.8"></bid>
-            </bids>
-            <offers>
-              <offer quantity="70" price="3.9"></offer>
-            </offers>
-          </orderBook>
-        </contractInfo>
-      </ContractBookInfo>
+      <contractInfo vol="31411" state="O" lstTrdTme="1319562253618" lstTrdPrc="3.8" conID="749136" close="3.0">
+        <symbol>2012.PRES.CAIN</symbol>
+        <orderBook>
+          <bids>
+            <bid quantity="16" price="3.8"></bid>
+          </bids>
+          <offers>
+            <offer quantity="70" price="3.9"></offer>
+          </offers>
+        </orderBook>
+      </contractInfo>
 
-    val response = PriceInformation(node)
-    expect(Option(1319552241395L)) {
-      response.timestamp
-    }
-    expect(node) {
-      response.response
-    }
-    expect(1) {
-      response.values.size
-    }
-    val priceInformation = response.values(0)
+    val priceInformation = PriceInformation(node)
     expect("31411") {
       priceInformation.vol
     }
@@ -62,21 +50,19 @@ class PriceInformationTest extends FunSuite {
 
   test("parse contract that has not traded") {
     val node =
-      <ContractBookInfo lastUpdateTime="1319552241395">
-        <contractInfo vol="0" state="O" lstTrdTme="-" lstTrdPrc="-" conID="749306" close="-">
-          <symbol>DEM.VP.2012.RENDELL</symbol>
-          <orderBook>
-            <bids>
-              <bid quantity="1" price="0.1"></bid>
-            </bids>
-            <offers>
-              <offer quantity="14" price="3.0"></offer>
-            </offers>
-          </orderBook>
-        </contractInfo>
-      </ContractBookInfo>
+      <contractInfo vol="0" state="O" lstTrdTme="-" lstTrdPrc="-" conID="749306" close="-">
+        <symbol>DEM.VP.2012.RENDELL</symbol>
+        <orderBook>
+          <bids>
+            <bid quantity="1" price="0.1"></bid>
+          </bids>
+          <offers>
+            <offer quantity="14" price="3.0"></offer>
+          </offers>
+        </orderBook>
+      </contractInfo>
 
-    val priceInformation = PriceInformation(node).values(0)
+    val priceInformation = PriceInformation(node)
     expect("0") {
       priceInformation.vol
     }

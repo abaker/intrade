@@ -5,13 +5,7 @@ import org.intrade.ContractState._
 import xml.Node
 
 object ContractInformation {
-  def apply(node: Node) = new Response[ContractInformation] {
-    val timestamp: Option[Long] = Option.empty
-    val response: Node = node
-    val values: Seq[ContractInformation] = node \ "contract" map node2ContractInformation
-  }
-
-  private def node2ContractInformation(xml: Node) = new ContractInformation {
+  def apply(xml: Node) = new ContractInformation {
     val ccy: String = xml.attribute("ccy")
     val close: Option[BigDecimal] = xml.attribute("close")
     val conID: String = xml.attribute("conID")

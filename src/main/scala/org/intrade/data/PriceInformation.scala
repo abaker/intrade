@@ -1,17 +1,11 @@
 package org.intrade.data
 
 import xml.Node
-import org.intrade.Implicits._
 import org.intrade.ContractState._
+import org.intrade.Implicits._
 
 object PriceInformation {
-  def apply(node: Node) = new Response[PriceInformation] {
-    val timestamp: Option[Long] = node.attribute("lastUpdateTime")
-    val response: Node = node
-    val values: Seq[PriceInformation] = node \ "contractInfo" map node2PriceInformation
-  }
-
-  private def node2PriceInformation(xml: Node) = new PriceInformation {
+  def apply(xml: Node) = new PriceInformation {
     val vol: String = xml.attribute("vol")
     val state: ContractState = xml.attribute("state")
     val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
