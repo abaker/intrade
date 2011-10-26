@@ -16,15 +16,15 @@ object ContractInformation {
   private def node2ContractInformation(xml: Node): ContractInformation = {
     new ContractInformation {
       val ccy: String = xml.attribute("ccy")
-      val close: Option[BigDecimal] = Option.empty
+      val close: Option[BigDecimal] = xml.attribute("close")
       val conID: String = xml.attribute("conID")
-      val dayhi: Option[BigDecimal] = Option.empty
-      val daylo: Option[BigDecimal] = Option.empty
+      val dayhi: Option[BigDecimal] = xml.attribute("dayhi")
+      val daylo: Option[BigDecimal] = xml.attribute("daylo")
       val dayvol: String = xml.attribute("dayvol")
-      val lifehi: Option[BigDecimal] = Option.empty
-      val lifelo: Option[BigDecimal] = Option.empty
-      val lstTrdPrc: Option[BigDecimal] = Option.empty
-      val lstTrdTme: Option[Long] = Option.empty
+      val lifehi: Option[BigDecimal] = xml.attribute("lifehi")
+      val lifelo: Option[BigDecimal] = xml.attribute("lifelo")
+      val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
+      val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
       val maxMarginPrice: BigDecimal = xml.attribute("maxMarginPrice")
       val minMarginPrice: BigDecimal = xml.attribute("minMarginPrice")
       val state: ContractState = xml.attribute("state")

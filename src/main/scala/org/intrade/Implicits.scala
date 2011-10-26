@@ -17,6 +17,16 @@ object Implicits {
 
   implicit def attribute2Boolean(node: Option[Seq[Node]]): Boolean = java.lang.Boolean.parseBoolean(node.get.text)
 
+  implicit def attribute2BigDecimalOption(node: Option[Seq[Node]]): Option[BigDecimal] = node.get.text match {
+    case "-" => Option.empty
+    case s: String => Option(s)
+  }
+
+  implicit def attribute2LongOption(node: Option[Seq[Node]]): Option[Long] = node.get.text match {
+    case "-" => Option.empty
+    case s: String => Option(s)
+  }
+
   implicit def nodeSeq2Long(node: NodeSeq): Long = java.lang.Long.parseLong(node.text)
 
   implicit def nodeSeq2String(node: NodeSeq): String = node.text
