@@ -8,7 +8,7 @@ object EventGroup {
     val id: String = node.attribute("id")
     val name: String = node \ "name"
     val displayOrder: Int = node \ "displayOrder"
-    val events: Seq[Event] = node \ "Event" map Event.apply
+    val events = node \ "Event" map Event.apply
   }
 }
 

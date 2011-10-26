@@ -12,7 +12,7 @@ object Event {
     val description: String = node \ "Description"
     val name: String = node \ "name"
     val displayOrder: Int = node \ "displayOrder"
-    val contracts: Seq[Contract] = node \ "contract" map Contract.apply
+    val contracts = node \ "contract" map Contract.apply
   }
 }
 

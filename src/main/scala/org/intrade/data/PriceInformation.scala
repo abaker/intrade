@@ -13,8 +13,8 @@ object PriceInformation {
     val conID: String = xml.attribute("conID")
     val close: Option[BigDecimal] = xml.attribute("close")
     val symbol: String = xml \ "symbol"
-    val bids: Seq[BookLevel] = xml \ "orderBook" \ "bids" \ "bid" map node2BookLevel
-    val offers: Seq[BookLevel] = xml \ "orderBook" \ "offers" \ "offer" map node2BookLevel
+    val bids = xml \ "orderBook" \ "bids" \ "bid" map node2BookLevel
+    val offers = xml \ "orderBook" \ "offers" \ "offer" map node2BookLevel
   }
 
   private def node2BookLevel(node: Node) = BookLevel(node.attribute("price"), node.attribute("quantity"))
