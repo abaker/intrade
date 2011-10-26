@@ -5,35 +5,31 @@ import org.intrade.ContractState._
 import xml.Node
 
 object ContractInformation {
-  def apply(node: Node): Response[ContractInformation] = {
-    new Response[ContractInformation] {
-      val timestamp: Option[Long] = Option.empty
-      val response: Node = node
-      val values: Seq[ContractInformation] = node \ "contract" map node2ContractInformation
-    }
+  def apply(node: Node) = new Response[ContractInformation] {
+    val timestamp: Option[Long] = Option.empty
+    val response: Node = node
+    val values: Seq[ContractInformation] = node \ "contract" map node2ContractInformation
   }
 
-  private def node2ContractInformation(xml: Node): ContractInformation = {
-    new ContractInformation {
-      val ccy: String = xml.attribute("ccy")
-      val close: Option[BigDecimal] = xml.attribute("close")
-      val conID: String = xml.attribute("conID")
-      val dayhi: Option[BigDecimal] = xml.attribute("dayhi")
-      val daylo: Option[BigDecimal] = xml.attribute("daylo")
-      val dayvol: String = xml.attribute("dayvol")
-      val lifehi: Option[BigDecimal] = xml.attribute("lifehi")
-      val lifelo: Option[BigDecimal] = xml.attribute("lifelo")
-      val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
-      val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
-      val maxMarginPrice: BigDecimal = xml.attribute("maxMarginPrice")
-      val minMarginPrice: BigDecimal = xml.attribute("minMarginPrice")
-      val state: ContractState = xml.attribute("state")
-      val tickSize: BigDecimal = xml.attribute("tickSize")
-      val tickValue: BigDecimal = xml.attribute("tickValue")
-      val totalvol: String = xml.attribute("totalvol")
-      val _type: String = xml.attribute("type")
-      val symbol: String = xml \ "symbol"
-    }
+  private def node2ContractInformation(xml: Node) = new ContractInformation {
+    val ccy: String = xml.attribute("ccy")
+    val close: Option[BigDecimal] = xml.attribute("close")
+    val conID: String = xml.attribute("conID")
+    val dayhi: Option[BigDecimal] = xml.attribute("dayhi")
+    val daylo: Option[BigDecimal] = xml.attribute("daylo")
+    val dayvol: String = xml.attribute("dayvol")
+    val lifehi: Option[BigDecimal] = xml.attribute("lifehi")
+    val lifelo: Option[BigDecimal] = xml.attribute("lifelo")
+    val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
+    val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
+    val maxMarginPrice: BigDecimal = xml.attribute("maxMarginPrice")
+    val minMarginPrice: BigDecimal = xml.attribute("minMarginPrice")
+    val state: ContractState = xml.attribute("state")
+    val tickSize: BigDecimal = xml.attribute("tickSize")
+    val tickValue: BigDecimal = xml.attribute("tickValue")
+    val totalvol: String = xml.attribute("totalvol")
+    val _type: String = xml.attribute("type")
+    val symbol: String = xml \ "symbol"
   }
 }
 
