@@ -30,32 +30,32 @@ class ContractInformationTest extends FunSuite {
     expect("USD") {
       contractInfo.ccy
     }
-    expect(BigDecimal(4.0)) {
-      contractInfo.close.get
+    expect(Option(BigDecimal(4.0))) {
+      contractInfo.close
     }
     expect("749136") {
       contractInfo.conID
     }
-    expect(BigDecimal(4.4)) {
-      contractInfo.dayhi.get
+    expect(Option(BigDecimal(4.4))) {
+      contractInfo.dayhi
     }
-    expect(BigDecimal(4.4)) {
-      contractInfo.daylo.get
+    expect(Option(BigDecimal(4.4))) {
+      contractInfo.daylo
     }
     expect("3") {
       contractInfo.dayvol
     }
-    expect(BigDecimal(5.5)) {
-      contractInfo.lifehi.get
+    expect(Option(BigDecimal(5.5))) {
+      contractInfo.lifehi
     }
-    expect(BigDecimal(0.1)) {
-      contractInfo.lifelo.get
+    expect(Option(BigDecimal(0.1))) {
+      contractInfo.lifelo
     }
-    expect(BigDecimal(4.4)) {
-      contractInfo.lstTrdPrc.get
+    expect(Option(BigDecimal(4.4))) {
+      contractInfo.lstTrdPrc
     }
-    expect(1319616022446L) {
-      contractInfo.lstTrdTme.get
+    expect(Option(1319616022446L)) {
+      contractInfo.lstTrdTme
     }
     expect(BigDecimal(100.0)) {
       contractInfo.maxMarginPrice
