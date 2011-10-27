@@ -31,6 +31,13 @@ object Response {
     val response = node
     val values = node \ "cp" map ClosingPrice.apply
   }
+
+  def string2TradeResponse(req: String, resp: String) = new Response[String, Trade] {
+    val timestamp: Option[Long] = Option.empty
+    val request = req
+    val response = resp
+    val values = resp.lines.toSeq map Trade.apply
+  }
 }
 
 trait Response[A, B] {

@@ -7,6 +7,8 @@ object Implicits {
 
   implicit def string2JavaLong(s: String) = java.lang.Long.parseLong(s)
 
+  implicit def string2JavaInt(s: String) = java.lang.Integer.parseInt(s)
+
   implicit def attribute2Long(node: Option[Seq[Node]]): Long = java.lang.Long.parseLong(node.get.text)
 
   implicit def attribute2String(node: Option[Seq[Node]]): String = node.get.text

@@ -40,4 +40,40 @@ class ResponseTest extends FunSuite {
       response.values
     }
   }
+
+  test("parse trade response") {
+    val result = "1319616022446,\t08:00:22 10/26/11 GMT,\t4.4,\t3\n1319639204180,\t14:26:44 10/26/11 GMT,\t4.4,\t2\n"
+
+    val response = Response.string2TradeResponse("http://some_url", result)
+
+    expect(2) {
+      response.values.size
+    }
+    val first = response.values(0)
+    expect(1319616022446L) {
+      first.utcTimestamp
+    }
+    expect("08:00:22 10/26/11 GMT") {
+      first.bstTimestamp
+    }
+    expect(BigDecimal(4.4)) {
+      first.price
+    }
+    expect(3) {
+      first.volume
+    }
+    val second = response.values(1)
+    expect(1319639204180L) {
+      second.utcTimestamp
+    }
+    expect("14:26:44 10/26/11 GMT") {
+      second.bstTimestamp
+    }
+    expect(BigDecimal(4.4)) {
+      second.price
+    }
+    expect(2) {
+      second.volume
+    }
+  }
 }
