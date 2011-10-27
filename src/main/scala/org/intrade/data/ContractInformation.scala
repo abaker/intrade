@@ -5,25 +5,25 @@ import org.intrade.ContractState._
 import xml.Node
 
 object ContractInformation {
-  def apply(xml: Node) = new ContractInformation {
-    val ccy: String = xml.attribute("ccy")
-    val close: Option[BigDecimal] = xml.attribute("close")
-    val conID: String = xml.attribute("conID")
-    val dayhi: Option[BigDecimal] = xml.attribute("dayhi")
-    val daylo: Option[BigDecimal] = xml.attribute("daylo")
-    val dayvol: String = xml.attribute("dayvol")
-    val lifehi: Option[BigDecimal] = xml.attribute("lifehi")
-    val lifelo: Option[BigDecimal] = xml.attribute("lifelo")
-    val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
-    val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
-    val maxMarginPrice: BigDecimal = xml.attribute("maxMarginPrice")
-    val minMarginPrice: BigDecimal = xml.attribute("minMarginPrice")
-    val state: ContractState = xml.attribute("state")
-    val tickSize: BigDecimal = xml.attribute("tickSize")
-    val tickValue: BigDecimal = xml.attribute("tickValue")
-    val totalvol: String = xml.attribute("totalvol")
-    val _type: String = xml.attribute("type")
-    val symbol: String = xml \ "symbol"
+  def apply(node: Node) = new ContractInformation {
+    val ccy: String = node \ "@ccy"
+    val close: Option[BigDecimal] = node \ "@close"
+    val conID: String = node \ "@conID"
+    val dayhi: Option[BigDecimal] = node \ "@dayhi"
+    val daylo: Option[BigDecimal] = node \ "@daylo"
+    val dayvol: String = node \ "@dayvol"
+    val lifehi: Option[BigDecimal] = node \ "@lifehi"
+    val lifelo: Option[BigDecimal] = node \ "@lifelo"
+    val lstTrdPrc: Option[BigDecimal] = node \ "@lstTrdPrc"
+    val lstTrdTme: Option[Long] = node \ "@lstTrdTme"
+    val maxMarginPrice: BigDecimal = node \ "@maxMarginPrice"
+    val minMarginPrice: BigDecimal = node \ "@minMarginPrice"
+    val state: ContractState = node \ "@state"
+    val tickSize: BigDecimal = node \ "@tickSize"
+    val tickValue: BigDecimal = node \ "@tickValue"
+    val totalvol: String = node \ "@totalvol"
+    val _type: String = node \ "@type"
+    val symbol: String = node \ "symbol"
   }
 }
 

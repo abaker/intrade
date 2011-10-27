@@ -5,7 +5,7 @@ import org.intrade.Implicits._
 
 object EventClass {
   def apply(node: Node) = new EventClass {
-    val id: String = node.attribute("id")
+    val id: String = node \ "@id"
     val name: String = node \ "name"
     val displayOrder: Int = node \ "displayOrder"
     val eventGroups = node \ "EventGroup" map EventGroup.apply

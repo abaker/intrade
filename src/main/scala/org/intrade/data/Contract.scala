@@ -6,13 +6,13 @@ import xml.Node
 
 object Contract {
   def apply(node: Node) = new Contract {
-    val ccy: String = node.attribute("ccy")
-    val id: String = node.attribute("id")
-    val inRunning: Boolean = node.attribute("inRunning")
-    val state: ContractState = node.attribute("state")
-    val tickSize: BigDecimal = node.attribute("tickSize")
-    val tickValue: BigDecimal = node.attribute("tickValue")
-    val _type: String = node.attribute("type")
+    val ccy: String = node \ "@ccy"
+    val id: String = node \ "@id"
+    val inRunning: Boolean = node \ "@inRunning"
+    val state: ContractState = node \ "@state"
+    val tickSize: BigDecimal = node \ "@tickSize"
+    val tickValue: BigDecimal = node \ "@tickValue"
+    val _type: String = node \ "@type"
     val name: String = node \ "name"
     val symbol: String = node \ "symbol"
     val totalVolume: String = node \ "totalVolume"

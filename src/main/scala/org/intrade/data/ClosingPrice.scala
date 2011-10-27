@@ -5,11 +5,11 @@ import org.intrade.Implicits._
 
 object ClosingPrice {
   def apply(node: Node) = new ClosingPrice {
-    val date: String = node.attribute("date")
-    val dt: Long = node.attribute("dt")
-    val price: BigDecimal = node.attribute("price")
-    val sessionHi: Option[BigDecimal] = node.attribute("sessionHi")
-    val sessionLo: Option[BigDecimal] = node.attribute("sessionLo")
+    val date: String = node \ "@date"
+    val dt: Long = node \ "@dt"
+    val price: BigDecimal = node \ "@price"
+    val sessionHi: Option[BigDecimal] = node \ "@sessionHi"
+    val sessionLo: Option[BigDecimal] = node \ "@sessionLo"
   }
 }
 

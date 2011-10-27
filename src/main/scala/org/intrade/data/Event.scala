@@ -5,10 +5,10 @@ import org.intrade.Implicits._
 
 object Event {
   def apply(node: Node) = new Event {
-    val endDate: Long = node.attribute("EndDate")
-    val startDate: Long = node.attribute("StartDate")
-    val groupID: String = node.attribute("groupID")
-    val id: String = node.attribute("id")
+    val endDate: Long = node \ "@EndDate"
+    val startDate: Long = node \ "@StartDate"
+    val groupID: String = node \ "@groupID"
+    val id: String = node \ "@id"
     val description: String = node \ "Description"
     val name: String = node \ "name"
     val displayOrder: Int = node \ "displayOrder"

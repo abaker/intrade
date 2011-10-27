@@ -5,19 +5,19 @@ import org.intrade.ContractState._
 import org.intrade.Implicits._
 
 object PriceInformation {
-  def apply(xml: Node) = new PriceInformation {
-    val vol: String = xml.attribute("vol")
-    val state: ContractState = xml.attribute("state")
-    val lstTrdTme: Option[Long] = xml.attribute("lstTrdTme")
-    val lstTrdPrc: Option[BigDecimal] = xml.attribute("lstTrdPrc")
-    val conID: String = xml.attribute("conID")
-    val close: Option[BigDecimal] = xml.attribute("close")
-    val symbol: String = xml \ "symbol"
-    val bids = xml \ "orderBook" \ "bids" \ "bid" map node2BookLevel
-    val offers = xml \ "orderBook" \ "offers" \ "offer" map node2BookLevel
+  def apply(node: Node) = new PriceInformation {
+    val vol: String = node \ "@vol"
+    val state: ContractState = node \ "@state"
+    val lstTrdTme: Option[Long] = node \ "@lstTrdTme"
+    val lstTrdPrc: Option[BigDecimal] = node \ "@lstTrdPrc"
+    val conID: String = node \ "@conID"
+    val close: Option[BigDecimal] = node \ "@close"
+    val symbol: String = node \ "symbol"
+    val bids = node \ "orderBook" \ "bids" \ "bid" map node2BookLevel
+    val offers = node \ "orderBook" \ "offers" \ "offer" map node2BookLevel
   }
 
-  private def node2BookLevel(node: Node) = BookLevel(node.attribute("price"), node.attribute("quantity"))
+  private def node2BookLevel(node: Node) = BookLevel(node \ "@price", node \ "@quantity")
 }
 
 trait PriceInformation {

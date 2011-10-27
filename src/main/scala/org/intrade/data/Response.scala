@@ -5,7 +5,7 @@ import org.intrade.Implicits._
 
 object Response {
   def node2EventClassResponse(req: String, node: Node) = new Response[Node, EventClass] {
-    val timestamp: Option[Long] = node.attribute("intrade.timestamp")
+    val timestamp: Option[Long] = node \ "@intrade.timestamp"
     val request = req
     val response = node
     val values = node \ "EventClass" map EventClass.apply
@@ -19,14 +19,14 @@ object Response {
   }
 
   def node2PriceInformationResponse(req: String, node: Node) = new Response[Node, PriceInformation] {
-    val timestamp: Option[Long] = node.attribute("lastUpdateTime")
+    val timestamp: Option[Long] = node \ "@lastUpdateTime"
     val request = req
     val response = node
     val values = node \ "contractInfo" map PriceInformation.apply
   }
 
   def node2ClosingPriceResponse(req: String, node: Node) = new Response[Node, ClosingPrice] {
-    val timestamp: Option[Long] = node.attribute("timestamp")
+    val timestamp: Option[Long] = node \ "@timestamp"
     val request = req
     val response = node
     val values = node \ "cp" map ClosingPrice.apply
