@@ -5,18 +5,31 @@ import org.intrade.ContractState._
 import xml.Node
 
 object Contract {
-  def apply(node: Node) = new Contract {
-    val ccy: String = node \ "@ccy"
-    val id: String = node \ "@id"
-    val inRunning: Boolean = node \ "@inRunning"
-    val state: ContractState = node \ "@state"
-    val tickSize: BigDecimal = node \ "@tickSize"
-    val tickValue: BigDecimal = node \ "@tickValue"
-    val _type: String = node \ "@type"
-    val name: String = node \ "name"
-    val symbol: String = node \ "symbol"
-    val totalVolume: String = node \ "totalVolume"
-  }
+
+  case class ContractImpl(ccy: String,
+                          id: String,
+                          inRunning: Boolean,
+                          state: ContractState,
+                          tickSize: BigDecimal,
+                          tickValue: BigDecimal,
+                          _type: String,
+                          name: String,
+                          symbol: String,
+                          totalVolume: String)
+    extends Contract
+
+  def apply(node: Node) =
+    ContractImpl(
+      node \ "@ccy",
+      node \ "@id",
+      node \ "@inRunning",
+      node \ "@state",
+      node \ "@tickSize",
+      node \ "@tickValue",
+      node \ "@type",
+      node \ "name",
+      node \ "symbol",
+      node \ "totalVolume")
 }
 
 trait Contract {

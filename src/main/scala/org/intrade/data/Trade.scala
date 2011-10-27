@@ -3,12 +3,16 @@ package org.intrade.data
 import org.intrade.Implicits._
 
 object Trade {
-  def apply(csv: String) = new Trade {
-    private val split = csv replaceAll("\t", "") split(',')
-    val utcTimestamp: Long = split(0)
-    val bstTimestamp = split(1)
-    val price: BigDecimal = split(2)
-    val volume: Int = split(3)
+
+  case class TradeImpl(utcTimestamp: Long,
+                       bstTimestamp: String,
+                       price: BigDecimal,
+                       volume: Int)
+    extends Trade
+
+  def apply(csv: String) = {
+    val split = csv replaceAll("\t", "") split (',')
+    TradeImpl(split(0), split(1), split(2), split(3))
   }
 }
 

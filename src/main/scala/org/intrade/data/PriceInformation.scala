@@ -5,17 +5,29 @@ import org.intrade.ContractState._
 import org.intrade.Implicits._
 
 object PriceInformation {
-  def apply(node: Node) = new PriceInformation {
-    val vol: String = node \ "@vol"
-    val state: ContractState = node \ "@state"
-    val lstTrdTme: Option[Long] = node \ "@lstTrdTme"
-    val lstTrdPrc: Option[BigDecimal] = node \ "@lstTrdPrc"
-    val conID: String = node \ "@conID"
-    val close: Option[BigDecimal] = node \ "@close"
-    val symbol: String = node \ "symbol"
-    val bids = node \ "orderBook" \ "bids" \ "bid" map node2BookLevel
-    val offers = node \ "orderBook" \ "offers" \ "offer" map node2BookLevel
-  }
+
+  case class PriceInformationImpl(vol: String,
+                                  state: ContractState,
+                                  lstTrdTme: Option[Long],
+                                  lstTrdPrc: Option[BigDecimal],
+                                  conID: String,
+                                  close: Option[BigDecimal],
+                                  symbol: String,
+                                  bids: Seq[BookLevel],
+                                  offers: Seq[BookLevel])
+    extends PriceInformation
+
+  def apply(node: Node) =
+    PriceInformationImpl(
+      node \ "@vol",
+      node \ "@state",
+      node \ "@lstTrdTme",
+      node \ "@lstTrdPrc",
+      node \ "@conID",
+      node \ "@close",
+      node \ "symbol",
+      node \ "orderBook" \ "bids" \ "bid" map node2BookLevel,
+      node \ "orderBook" \ "offers" \ "offer" map node2BookLevel)
 
   private def node2BookLevel(node: Node) = BookLevel(node \ "@price", node \ "@quantity")
 }

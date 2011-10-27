@@ -1,30 +1,51 @@
 package org.intrade.data
 
-import org.intrade.Implicits._
 import org.intrade.ContractState._
+import org.intrade.Implicits._
 import xml.Node
 
 object ContractInformation {
-  def apply(node: Node) = new ContractInformation {
-    val ccy: String = node \ "@ccy"
-    val close: Option[BigDecimal] = node \ "@close"
-    val conID: String = node \ "@conID"
-    val dayhi: Option[BigDecimal] = node \ "@dayhi"
-    val daylo: Option[BigDecimal] = node \ "@daylo"
-    val dayvol: String = node \ "@dayvol"
-    val lifehi: Option[BigDecimal] = node \ "@lifehi"
-    val lifelo: Option[BigDecimal] = node \ "@lifelo"
-    val lstTrdPrc: Option[BigDecimal] = node \ "@lstTrdPrc"
-    val lstTrdTme: Option[Long] = node \ "@lstTrdTme"
-    val maxMarginPrice: BigDecimal = node \ "@maxMarginPrice"
-    val minMarginPrice: BigDecimal = node \ "@minMarginPrice"
-    val state: ContractState = node \ "@state"
-    val tickSize: BigDecimal = node \ "@tickSize"
-    val tickValue: BigDecimal = node \ "@tickValue"
-    val totalvol: String = node \ "@totalvol"
-    val _type: String = node \ "@type"
-    val symbol: String = node \ "symbol"
-  }
+
+  case class ContractInformationImpl(ccy: String,
+                                     close: Option[BigDecimal],
+                                     conID: String,
+                                     dayhi: Option[BigDecimal],
+                                     daylo: Option[BigDecimal],
+                                     dayvol: String,
+                                     lifehi: Option[BigDecimal],
+                                     lifelo: Option[BigDecimal],
+                                     lstTrdPrc: Option[BigDecimal],
+                                     lstTrdTme: Option[Long],
+                                     maxMarginPrice: BigDecimal,
+                                     minMarginPrice: BigDecimal,
+                                     state: ContractState,
+                                     tickSize: BigDecimal,
+                                     tickValue: BigDecimal,
+                                     totalvol: String,
+                                     _type: String,
+                                     symbol: String)
+    extends ContractInformation
+
+  def apply(node: Node) =
+    ContractInformationImpl(
+      node \ "@ccy",
+      node \ "@close",
+      node \ "@conID",
+      node \ "@dayhi",
+      node \ "@daylo",
+      node \ "@dayvol",
+      node \ "@lifehi",
+      node \ "@lifelo",
+      node \ "@lstTrdPrc",
+      node \ "@lstTrdTme",
+      node \ "@maxMarginPrice",
+      node \ "@minMarginPrice",
+      node \ "@state",
+      node \ "@tickSize",
+      node \ "@tickValue",
+      node \ "@totalvol",
+      node \ "@type",
+      node \ "symbol")
 }
 
 trait ContractInformation {

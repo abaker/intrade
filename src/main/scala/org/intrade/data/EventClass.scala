@@ -4,12 +4,19 @@ import xml.Node
 import org.intrade.Implicits._
 
 object EventClass {
-  def apply(node: Node) = new EventClass {
-    val id: String = node \ "@id"
-    val name: String = node \ "name"
-    val displayOrder: Int = node \ "displayOrder"
-    val eventGroups = node \ "EventGroup" map EventGroup.apply
-  }
+
+  case class EventClassImpl(id: String,
+                            name: String,
+                            displayOrder: Int,
+                            eventGroups: Seq[EventGroup])
+    extends EventClass
+
+  def apply(node: Node) =
+    EventClassImpl(
+      node \ "@id",
+      node \ "name",
+      node \ "displayOrder",
+      node \ "EventGroup" map EventGroup.apply)
 }
 
 trait EventClass {
