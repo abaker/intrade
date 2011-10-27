@@ -3,21 +3,21 @@ package org.intrade
 import xml.NodeSeq
 
 object Implicits {
-  implicit def string2ScalaBigDecimal(s: String): scala.math.BigDecimal = BigDecimal(s)
+  implicit def string2ScalaBigDecimal(s: String) = BigDecimal(s)
 
   implicit def string2JavaLong(s: String) = java.lang.Long.parseLong(s)
 
   implicit def string2JavaInt(s: String) = java.lang.Integer.parseInt(s)
 
-  implicit def nodeSeq2Long(node: NodeSeq): Long = java.lang.Long.parseLong(node.text)
+  implicit def nodeSeq2Long(node: NodeSeq) = java.lang.Long.parseLong(node.text)
 
-  implicit def nodeSeq2String(node: NodeSeq): String = node.text
+  implicit def nodeSeq2String(node: NodeSeq) = node.text
 
-  implicit def nodeSeq2BigDecimal(node: NodeSeq): BigDecimal = BigDecimal(node.text)
+  implicit def nodeSeq2BigDecimal(node: NodeSeq) = BigDecimal(node.text)
 
-  implicit def nodeSeq2Int(node: NodeSeq): Int = java.lang.Integer.parseInt(node.text)
+  implicit def nodeSeq2Int(node: NodeSeq) = java.lang.Integer.parseInt(node.text)
 
-  implicit def nodeSeq2Boolean(node: NodeSeq): Boolean = java.lang.Boolean.parseBoolean(node.text)
+  implicit def nodeSeq2Boolean(node: NodeSeq) = java.lang.Boolean.parseBoolean(node.text)
 
   implicit def nodeSeq2BigDecimalOption(node: NodeSeq): Option[BigDecimal] = node.text match {
     case "-" | " " => Option.empty
