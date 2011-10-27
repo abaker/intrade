@@ -24,6 +24,13 @@ object Response {
     val response = node
     val values = node \ "contractInfo" map PriceInformation.apply
   }
+
+  def node2ClosingPriceResponse(req: String, node: Node) = new Response[Node, ClosingPrice] {
+    val timestamp: Option[Long] = node.attribute("timestamp")
+    val request = req
+    val response = node
+    val values = node \ "cp" map ClosingPrice.apply
+  }
 }
 
 trait Response[A, B] {

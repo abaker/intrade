@@ -18,7 +18,7 @@ object Implicits {
   implicit def attribute2Boolean(node: Option[Seq[Node]]): Boolean = java.lang.Boolean.parseBoolean(node.get.text)
 
   implicit def attribute2BigDecimalOption(node: Option[Seq[Node]]): Option[BigDecimal] = node.get.text match {
-    case "-" => Option.empty
+    case "-" | " " => Option.empty
     case s: String => Option(s)
   }
 
