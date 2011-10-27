@@ -12,7 +12,7 @@ object URLProvider {
 }
 
 class URLProvider(env: Environment) {
-  private val allContracts = "%s/MarketData/xml.jsp" format (root(env))
+  private val allContracts = "%s/MarketData/xml.jsp" format root(env)
   private val allContractsByEventClass = "%s/MarketData/XMLForClass.jsp?classID=%s" format(root(env), "%s")
   private val price = "%s/MarketData/ContractBookXML.jsp?id=%s&timestamp=%s" format(root(env), "%s", "%s")
   private val priceWithDepth = "%s&depth=%s" format(price, "%s")
@@ -21,7 +21,7 @@ class URLProvider(env: Environment) {
   private val trades = "%s/TradeData/TimeAndSales.jsp?conID=%s" format(root(env), "%s")
 
   def activeContractListing(eventClassId: Int) = eventClassId match {
-    case x if x > 0 => allContractsByEventClass format (x)
+    case x if x > 0 => allContractsByEventClass format x
     case _ => allContracts
   }
 
@@ -30,9 +30,9 @@ class URLProvider(env: Environment) {
     case _ => priceWithDepth format(contractIds.mkString("&id="), timestamp, depth)
   }
 
-  def contractInformation(contractIds: Seq[String]) = conInfo format (contractIds.mkString("&id="))
+  def contractInformation(contractIds: Seq[String]) = conInfo format contractIds.mkString("&id=")
 
-  def closingPrices(contractId: String) = closingPrice format (contractId)
+  def closingPrices(contractId: String) = closingPrice format contractId
 
-  def dailyTimeAndSales(contractId: String) = trades format (contractId)
+  def dailyTimeAndSales(contractId: String) = trades format contractId
 }
