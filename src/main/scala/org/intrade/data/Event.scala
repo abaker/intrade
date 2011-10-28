@@ -7,8 +7,8 @@ object Event {
 
   case class EventImpl(endDate: Long,
                        startDate: Long,
-                       groupID: String,
-                       id: String,
+                       groupID: Int,
+                       id: Int,
                        description: String,
                        name: String,
                        displayOrder: Int,
@@ -32,9 +32,9 @@ trait Event {
 
   def startDate: Long
 
-  def groupID: String
+  def groupID: Int
 
-  def id: String
+  def id: Int
 
   def description: String
 

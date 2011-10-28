@@ -31,7 +31,7 @@ class PriceInformationTest extends FunSuite {
     expect(Option(BigDecimal(3.8))) {
       priceInformation.lstTrdPrc
     }
-    expect("749136") {
+    expect(749136) {
       priceInformation.conID
     }
     expect(Option(BigDecimal(3.0))) {

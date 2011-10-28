@@ -8,7 +8,7 @@ object ContractInformation {
 
   case class ContractInformationImpl(ccy: String,
                                      close: Option[BigDecimal],
-                                     conID: String,
+                                     conID: Int,
                                      dayhi: Option[BigDecimal],
                                      daylo: Option[BigDecimal],
                                      dayvol: String,
@@ -53,7 +53,7 @@ trait ContractInformation {
 
   def close: Option[BigDecimal]
 
-  def conID: String
+  def conID: Int
 
   def dayhi: Option[BigDecimal]
 

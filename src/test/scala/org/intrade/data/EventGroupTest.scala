@@ -26,7 +26,7 @@ class EventGroupTest extends FunSuite {
       </EventClass>
 
     val eventClass = EventClass(node)
-    expect("78") {
+    expect(78) {
       eventClass.id
     }
     expect("Business") {
@@ -39,7 +39,7 @@ class EventGroupTest extends FunSuite {
       eventClass.eventGroups.size
     }
     val eventGroup = eventClass.eventGroups(0)
-    expect("9679") {
+    expect(9679) {
       eventGroup.id
     }
     expect("BP") {
@@ -58,10 +58,10 @@ class EventGroupTest extends FunSuite {
     expect(1276732800000L) {
       event.startDate
     }
-    expect("9679") {
+    expect(9679) {
       event.groupID
     }
-    expect("89688") {
+    expect(89688) {
       event.id
     }
     expect("") {
@@ -80,7 +80,7 @@ class EventGroupTest extends FunSuite {
     expect("USD") {
       contract.ccy
     }
-    expect("729021") {
+    expect(729021) {
       contract.id
     }
     expect(false) {

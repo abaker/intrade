@@ -21,7 +21,7 @@ class ContractInformationTest extends FunSuite {
     expect(Option(BigDecimal(4.0))) {
       contractInfo.close
     }
-    expect("749136") {
+    expect(749136) {
       contractInfo.conID
     }
     expect(Option(BigDecimal(4.4))) {

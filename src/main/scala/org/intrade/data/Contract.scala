@@ -7,7 +7,7 @@ import xml.Node
 object Contract {
 
   case class ContractImpl(ccy: String,
-                          id: String,
+                          id: Int,
                           inRunning: Boolean,
                           state: ContractState,
                           tickSize: BigDecimal,
@@ -35,7 +35,7 @@ object Contract {
 trait Contract {
   def ccy: String
 
-  def id: String
+  def id: Int
 
   def inRunning: Boolean
 

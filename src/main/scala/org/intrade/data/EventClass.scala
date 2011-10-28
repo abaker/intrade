@@ -5,7 +5,7 @@ import org.intrade.Implicits._
 
 object EventClass {
 
-  case class EventClassImpl(id: String,
+  case class EventClassImpl(id: Int,
                             name: String,
                             displayOrder: Int,
                             eventGroups: Seq[EventGroup])
@@ -20,7 +20,7 @@ object EventClass {
 }
 
 trait EventClass {
-  def id: String
+  def id: Int
 
   def name: String
 

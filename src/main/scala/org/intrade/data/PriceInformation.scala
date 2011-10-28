@@ -10,7 +10,7 @@ object PriceInformation {
                                   state: ContractState,
                                   lstTrdTme: Option[Long],
                                   lstTrdPrc: Option[BigDecimal],
-                                  conID: String,
+                                  conID: Int,
                                   close: Option[BigDecimal],
                                   symbol: String,
                                   bids: Seq[BookLevel],
@@ -41,7 +41,7 @@ trait PriceInformation {
 
   def lstTrdPrc: Option[BigDecimal]
 
-  def conID: String
+  def conID: Int
 
   def close: Option[BigDecimal]
 
