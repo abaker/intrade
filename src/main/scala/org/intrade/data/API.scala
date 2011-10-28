@@ -42,7 +42,7 @@ object API {
 trait API {
   def activeContractListing(optionalEventClass: Int = 0): Response[Node, EventClass]
 
-  def priceInformation(contractIds: Seq[String], timestamp: Long = 0, depth: Int = 0): Response[Node, PriceInformation]
+  def priceInformation(contractIds: Seq[String], timestamp: Long = 0, depth: Int = 5): Response[Node, PriceInformation]
 
   def contractInformation(contractIds: Seq[String]): Response[Node, ContractInformation]
 
