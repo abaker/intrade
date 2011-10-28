@@ -8,7 +8,7 @@ object Response {
   case class ResponseImpl[A, B](timestamp: Option[Long],
                                 request: String,
                                 response: A,
-                                values: Seq[B])
+                                payload: Seq[B])
     extends Response[A, B]
 
   def node2EventClassResponse(req: String, node: Node) =
@@ -34,5 +34,5 @@ trait Response[A, +B] {
 
   def response: A
 
-  def values: Seq[B]
+  def payload: Seq[B]
 }

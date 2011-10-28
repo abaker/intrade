@@ -18,7 +18,7 @@ class ResponseTest extends FunSuite {
       response.timestamp
     }
     expect(Seq[ClosingPrice]()) {
-      response.values
+      response.payload
     }
   }
 
@@ -37,7 +37,7 @@ class ResponseTest extends FunSuite {
       response.timestamp
     }
     expect(Seq[ContractInformation]()) {
-      response.values
+      response.payload
     }
   }
 
@@ -47,9 +47,9 @@ class ResponseTest extends FunSuite {
     val response = Response.string2TradeResponse("http://some_url", result)
 
     expect(2) {
-      response.values.size
+      response.payload.size
     }
-    val first = response.values(0)
+    val first = response.payload(0)
     expect(1319616022446L) {
       first.utcTimestamp
     }
@@ -62,7 +62,7 @@ class ResponseTest extends FunSuite {
     expect(3) {
       first.volume
     }
-    val second = response.values(1)
+    val second = response.payload(1)
     expect(1319639204180L) {
       second.utcTimestamp
     }
