@@ -30,7 +30,7 @@ class ClosingPriceTest extends FunSuite {
   test("handle empty hi and lo") {
     val elem =
         <cp date="6:00AM 06/27/11 GMT" dt="1309154441273"
-            price="1.399999976158142" sessionHi=" " sessionLo=" "/>
+            price="1.399999976158142" sessionHi="" sessionLo=""/>
 
     val closingPrice = ClosingPrice(elem)
 

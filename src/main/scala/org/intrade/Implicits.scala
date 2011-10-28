@@ -20,7 +20,7 @@ object Implicits {
   implicit def nodeSeq2Boolean(node: NodeSeq) = java.lang.Boolean.parseBoolean(node.text)
 
   implicit def nodeSeq2BigDecimalOption(node: NodeSeq): Option[BigDecimal] = node.text match {
-    case "-" | " " => Option.empty
+    case "-" | "" => Option.empty
     case s: String => Option(s)
   }
 
