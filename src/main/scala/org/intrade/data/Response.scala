@@ -4,43 +4,30 @@ import xml.Node
 import org.intrade.Implicits._
 
 object Response {
-  def node2EventClassResponse(req: String, node: Node) = new Response[Node, EventClass] {
-    val timestamp: Option[Long] = node \ "@intrade.timestamp"
-    val request = req
-    val response = node
-    val values = node \ "EventClass" map EventClass.apply
-  }
 
-  def node2ContractInformationResponse(req: String, node: Node) = new Response[Node, ContractInformation] {
-    val timestamp: Option[Long] = Option.empty
-    val request = req
-    val response = node
-    val values = node \ "contract" map ContractInformation.apply
-  }
+  case class ResponseImpl[A, B](timestamp: Option[Long],
+                                request: String,
+                                response: A,
+                                values: Seq[B])
+    extends Response[A, B]
 
-  def node2PriceInformationResponse(req: String, node: Node) = new Response[Node, PriceInformation] {
-    val timestamp: Option[Long] = node \ "@lastUpdateTime"
-    val request = req
-    val response = node
-    val values = node \ "contractInfo" map PriceInformation.apply
-  }
+  def node2EventClassResponse(req: String, node: Node) =
+    ResponseImpl(node \ "@intrade.timestamp", req, node, node \ "EventClass" map EventClass.apply)
 
-  def node2ClosingPriceResponse(req: String, node: Node) = new Response[Node, ClosingPrice] {
-    val timestamp: Option[Long] = node \ "@timestamp"
-    val request = req
-    val response = node
-    val values = node \ "cp" map ClosingPrice.apply
-  }
+  def node2ContractInformationResponse(req: String, node: Node) =
+    ResponseImpl(Option.empty, req, node, node \ "contract" map ContractInformation.apply)
 
-  def string2TradeResponse(req: String, resp: String) = new Response[String, Trade] {
-    val timestamp: Option[Long] = Option.empty
-    val request = req
-    val response = resp
-    val values = resp.lines.toSeq map Trade.apply
-  }
+  def node2PriceInformationResponse(req: String, node: Node) =
+    ResponseImpl(node \ "@lastUpdateTime", req, node, node \ "contractInfo" map PriceInformation.apply)
+
+  def node2ClosingPriceResponse(req: String, node: Node) =
+    ResponseImpl(node \ "@timestamp", req, node, node \ "cp" map ClosingPrice.apply)
+
+  def string2TradeResponse(req: String, resp: String) =
+    ResponseImpl(Option.empty, req, resp, resp.lines.toSeq map Trade.apply)
 }
 
-trait Response[A, B] {
+trait Response[A, +B] {
   def timestamp: Option[Long]
 
   def request: String
