@@ -1,7 +1,6 @@
 package org.intrade.data
 
 import org.intrade.Environment._
-
 import org.intrade.Environment
 
 class URLProvider(env: Environment) {

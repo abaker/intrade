@@ -28,5 +28,4 @@ object Implicits {
     case "-" => Option.empty
     case s: String => Option(s)
   }
-
 }
