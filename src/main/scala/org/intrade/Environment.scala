@@ -7,8 +7,8 @@ object Environment extends Enumeration {
   def dataUrl(env: Environment) = "http://%s" format host(env)
 
   def tradingUrl(env: Environment) = env match {
-    case Live => "https://%s" format host(env)
-    case Test => "http://%s" format host(env)
+    case Live => "https://%s/xml/handler.jsp" format host(env)
+    case Test => "http://%s/xml/handler.jsp" format host(env)
   }
 
   private def host(env: Environment) = env match {
