@@ -4,15 +4,6 @@ import org.scalatest.FunSuite
 import org.intrade.Environment
 
 class URLProviderTest extends FunSuite {
-  test("should get base url") {
-    expect("http://api.intrade.com/jsp/XML") {
-      URLProvider.root(Environment.Live)
-    }
-    expect("http://testexternal.intrade.com/jsp/XML") {
-      URLProvider.root(Environment.Test)
-    }
-  }
-
   test("should create request for all active contract listings") {
     expect("http://api.intrade.com/jsp/XML/MarketData/xml.jsp") {
       new URLProvider(Environment.Live).activeContractListing(0)

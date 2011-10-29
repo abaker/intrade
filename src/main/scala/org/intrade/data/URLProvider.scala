@@ -2,23 +2,17 @@ package org.intrade.data
 
 import org.intrade.Environment._
 
-import URLProvider._
-
-object URLProvider {
-  def root(env: Environment) = "http://%s.intrade.com/jsp/XML" format (env match {
-    case Live => "api"
-    case Test => "testexternal"
-  })
-}
+import org.intrade.Environment
 
 class URLProvider(env: Environment) {
-  private val allContracts = "%s/MarketData/xml.jsp" format root(env)
-  private val allContractsByEventClass = "%s/MarketData/XMLForClass.jsp?classID=%s" format(root(env), "%s")
-  private val price = "%s/MarketData/ContractBookXML.jsp?id=%s&timestamp=%s" format(root(env), "%s", "%s")
+  private val root = "%s/jsp/XML" format Environment.dataUrl(env)
+  private val allContracts = "%s/MarketData/xml.jsp" format root
+  private val allContractsByEventClass = "%s/MarketData/XMLForClass.jsp?classID=%s" format(root, "%s")
+  private val price = "%s/MarketData/ContractBookXML.jsp?id=%s&timestamp=%s" format(root, "%s", "%s")
   private val priceWithDepth = "%s&depth=%s" format(price, "%s")
-  private val conInfo = "%s/MarketData/ConInfo.jsp?id=%s" format(root(env), "%s")
-  private val closingPrice = "%s/MarketData/ClosingPrice.jsp?conID=%s" format(root(env), "%s")
-  private val trades = "%s/TradeData/TimeAndSales.jsp?conID=%s" format(root(env), "%s")
+  private val conInfo = "%s/MarketData/ConInfo.jsp?id=%s" format(root, "%s")
+  private val closingPrice = "%s/MarketData/ClosingPrice.jsp?conID=%s" format(root, "%s")
+  private val trades = "%s/TradeData/TimeAndSales.jsp?conID=%s" format(root, "%s")
 
   def activeContractListing(eventClassId: Int) = eventClassId match {
     case x if x > 0 => allContractsByEventClass format x
