@@ -3,6 +3,25 @@ package org.intrade.trading
 import org.scalatest.FunSuite
 
 class ResponseTest extends FunSuite {
+
+  test("should process incorrect password response") {
+    val node =
+      <tsResponse requestOp="getLogin" resultCode="-1" timestamp="1319901651372" timetaken="387">
+        <errorcode>0</errorcode>
+        <faildesc>The password you entered does not match your username.</faildesc>
+        <sessionData>ANONYMOUS</sessionData>
+      </tsResponse>
+  }
+
+  test("should process failed request") {
+    val node =
+      <tsResponse requestOp="getLogin" resultCode="-1" timestamp="1319901816460" timetaken="627">
+        <errorcode>0</errorcode>
+        <faildesc>The login information you have provided is not correct.</faildesc>
+        <sessionData>ANONYMOUS</sessionData>
+      </tsResponse>
+  }
+
   test("should parse response") {
     val request =
         <xmlrequest requestOp="someOperation"/>
@@ -40,7 +59,7 @@ class ResponseTest extends FunSuite {
     expect(node) {
       response.response
     }
-    expect("hello") {
+    expect(Option("hello")) {
       response.payload
     }
   }

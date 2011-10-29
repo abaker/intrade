@@ -16,13 +16,13 @@ class EnvironmentTest extends FunSuite {
   }
 
   test("should get test trading url") {
-    expect("http://testexternal.intrade.com") {
+    expect("http://testexternal.intrade.com/xml/handler.jsp") {
       Environment.tradingUrl(Environment.Test)
     }
   }
 
   test("should get live trading url") {
-    expect("https://api.intrade.com") {
+    expect("https://api.intrade.com/xml/handler.jsp") {
       Environment.tradingUrl(Environment.Live)
     }
   }
