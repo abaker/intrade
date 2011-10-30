@@ -1,6 +1,6 @@
 package org.intrade
 
-import xml.NodeSeq
+import xml.{Elem, NodeSeq}
 
 object Implicits {
   implicit def string2ScalaBigDecimal(s: String) = BigDecimal(s)
@@ -32,5 +32,12 @@ object Implicits {
   implicit def nodeSeq2IntOption(node: NodeSeq): Option[Int] = node.text match {
     case "" => Option.empty
     case s: String => Option(s)
+  }
+
+  implicit def append2NodeSeq(node: NodeSeq) = new {
+    def append(addMe: NodeSeq) = node match {
+      case Elem(prefix, label, attribs, scope, child@_*) =>
+        Elem(prefix, label, attribs, scope, child ++ addMe: _*)
+    }
   }
 }
