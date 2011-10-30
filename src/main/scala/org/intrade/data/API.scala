@@ -13,16 +13,16 @@ object API {
     def activeContractListing(optionalEventClass: Int = 0) =
       process(urls.activeContractListing(optionalEventClass), xmlRequest, node2EventClassResponse)
 
-    def priceInformation(contractIds: Seq[String], timestamp: Long = 0, depth: Int = 5) =
+    def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5) =
       process(urls.priceInformation(contractIds, timestamp, depth), xmlRequest, node2PriceInformationResponse)
 
-    def contractInformation(contractIds: Seq[String]) =
+    def contractInformation(contractIds: Seq[Int]) =
       process(urls.contractInformation(contractIds), xmlRequest, node2ContractInformationResponse)
 
-    def closingPrices(contractId: String) =
+    def closingPrices(contractId: Int) =
       process(urls.closingPrices(contractId), xmlRequest, node2ClosingPriceResponse)
 
-    def dailyTimeAndSales(contractId: String) =
+    def dailyTimeAndSales(contractId: Int) =
       process(urls.dailyTimeAndSales(contractId), stringRequest, string2TradeResponse)
   }
 
@@ -42,11 +42,11 @@ object API {
 trait API {
   def activeContractListing(optionalEventClass: Int = 0): Response[Node, EventClass]
 
-  def priceInformation(contractIds: Seq[String], timestamp: Long = 0, depth: Int = 5): Response[Node, PriceInformation]
+  def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5): Response[Node, PriceInformation]
 
-  def contractInformation(contractIds: Seq[String]): Response[Node, ContractInformation]
+  def contractInformation(contractIds: Seq[Int]): Response[Node, ContractInformation]
 
-  def closingPrices(contractId: String): Response[Node, ClosingPrice]
+  def closingPrices(contractId: Int): Response[Node, ClosingPrice]
 
-  def dailyTimeAndSales(contractId: String): Response[String, Trade]
+  def dailyTimeAndSales(contractId: Int): Response[String, Trade]
 }
