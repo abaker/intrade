@@ -17,7 +17,7 @@ object Response {
                              payload: Option[A])
     extends Response[A]
 
-  def node2Response[A](req: Node, node: Node, f: Node => A) = {
+  def apply[A](req: Node, node: Node, f: Node => A) = {
     val resultCode: Int = node \ "@resultCode"
     ResponseImpl(
       node \ "@timetaken",
