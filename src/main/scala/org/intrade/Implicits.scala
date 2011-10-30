@@ -28,4 +28,9 @@ object Implicits {
     case "-" => Option.empty
     case s: String => Option(s)
   }
+
+  implicit def nodeSeq2IntOption(node: NodeSeq): Option[Int] = node.text match {
+    case "" => Option.empty
+    case s: String => Option(s)
+  }
 }

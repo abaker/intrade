@@ -9,24 +9,31 @@ object Response {
                              timestamp: Long,
                              resultCode: Int,
                              requestOp: String,
+                             errorcode: Option[Int],
                              faildesc: String,
                              sessionData: String,
                              request: Node,
                              response: Node,
-                             payload: A)
+                             payload: Option[A])
     extends Response[A]
 
-  def node2Response[A](req: Node, node: Node, f: Node => A) =
+  def node2Response[A](req: Node, node: Node, f: Node => A) = {
+    val resultCode: Int = node \ "@resultCode"
     ResponseImpl(
       node \ "@timetaken",
       node \ "@timestamp",
-      node \ "@resultCode",
+      resultCode,
       node \ "@requestOp",
+      node \ "errorcode",
       node \ "faildesc",
       node \ "sessionData",
       req,
       node,
-      f(node))
+      resultCode match {
+        case 0 => Option(f(node))
+        case -1 => Option.empty[A]
+      })
+  }
 }
 
 trait Response[+A] {
@@ -38,11 +45,13 @@ trait Response[+A] {
 
   def requestOp: String
 
+  def errorcode: Option[Int]
+
   def faildesc: String
 
   def sessionData: String
 
-  def payload: A
+  def payload: Option[A]
 
   def request: Node
 
