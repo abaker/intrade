@@ -6,11 +6,10 @@ object Side extends Enumeration {
   type Side = Value
   val Buy, Sell = Value
 
-  def parse(side: String): Side = side match {
+  def parse(side: String) = side match {
     case "BUY" | "B" => Side.Buy
     case "SELL" | "S" => Side.Sell
-    case x => throw new RuntimeException("Unknown side: %s" format x)
   }
 
-  implicit def nodeSeq2String(node: NodeSeq): Side = parse(node.text)
+  implicit def nodeSeq2String(node: NodeSeq) = parse(node.text)
 }
