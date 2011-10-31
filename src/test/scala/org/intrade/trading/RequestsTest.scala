@@ -6,6 +6,7 @@ import xml.Utility.trim
 import xml.Node
 
 class RequestsTest extends FunSuite {
+
   test("create login request") {
     val expected =
       <xmlrequest requestOp="getLogin">
@@ -162,6 +163,22 @@ class RequestsTest extends FunSuite {
       </xmlrequest>
 
     compareXml(expected, cancelMultipleOrdersForUser(List(1234, 5678)))
+  }
+
+  test("create basic limit order request") {
+    val expected =
+      <xmlrequest requestOp="multiOrderRequest">
+        <order>conID=1234,side=B,quantity=3,limitPrice=45.5,timeInForce=GTC</order>
+      </xmlrequest>
+
+    val orderRequest = new OrderRequest {
+      val conID = 1234
+      val side = Side.Buy
+      val quantity = 3
+      val limitprice = BigDecimal(45.5)
+    }
+
+    compareXml(expected, multiOrderRequest(List(orderRequest)))
   }
 
   private def compareXml(expected: Node, actual: Node) {

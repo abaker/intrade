@@ -1,7 +1,8 @@
 package org.intrade.trading
 
-import orders._
 import org.intrade.trading.Side._
+import org.intrade.trading.TimeInForce._
+import org.intrade.trading.OrderType._
 
 object Requests {
   def getLogin(username: String, password: String) =
@@ -29,25 +30,35 @@ object Requests {
       </order>}
     </xmlrequest>
 
-  def timeInForce[T <: OrderRequest](order: T) = order match {
-    case order: GoodTilTime => "timeInForce=GTT,timeToExpire=%s" format order.timeToExpire
-    case order: GoodForSession => "timeInForce=GFS"
-    case order: OrderRequest => "timeInForce=GTC"
-  }
 
-  def orderType[T <: OrderRequest](order: T) = order match {
-    case order: Touch => ",orderType=T,touchPrice=%s" format order.touchPrice
-    case order: FillOrKill => ",orderType=F"
-    case order: OrderRequest => ""
-  }
-
-  def orderToOrderString[T <: OrderRequest](order: T) =
-    "conID=%s,side=%s,limitPrice=%s,quantity=%s,%s%s" format(
-      order.conID, sideToString(order.side), order.limitprice, order.quantity, timeInForce(order), orderType(order))
+  def orderToOrderString(order: OrderRequest) =
+    "conID=%s,side=%s,quantity=%s,limitPrice=%s,%s%s%s" format (
+      order.conID, sideToString(order.side), order.quantity, order.limitprice, timeInForce(order), orderType(order), userReference(order.userReference))
 
   def sideToString(side: Side) = side match {
     case Buy => "B"
     case Sell => "S"
+  }
+
+  def userReference(ref: String) = ref match {
+    case "" => ""
+    case _ => ",userReference=%s" format (ref)
+  }
+
+  def timeInForce(order: OrderRequest) = order.timeInForce match {
+    case Good_Til_Time => "timeInForce=GTT,timeToExpire=%s" format order.timeToExpire
+    case x => "timeInForce=%s" format (timeInForceToString(order.timeInForce))
+  }
+
+  def timeInForceToString(tif: TimeInForce) = tif match {
+    case Good_For_Session => "GFS"
+    case Good_Til_Cancel => "GTC"
+  }
+
+  def orderType(order: OrderRequest) = order.orderType match {
+    case Touch => ",orderType=T,touchPrice=%s" format order.touchPrice
+    case Fill_Or_Kill => ",orderType=F"
+    case x => ""
   }
 
   def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
