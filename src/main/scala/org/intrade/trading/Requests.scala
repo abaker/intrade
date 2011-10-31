@@ -44,4 +44,12 @@ object Requests {
         {timestamp}
       </timestamp>}
     </xmlrequest>
+
+  def setAsRead(notificationIDs: Seq[Int]) =
+    <xmlrequest requestOp="setAsRead">
+      {for (notificationID <- notificationIDs) yield
+      <userNotificationID>
+        {notificationID}
+      </userNotificationID>}
+    </xmlrequest>
 }

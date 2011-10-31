@@ -50,18 +50,7 @@ class RequestsTest extends FunSuite {
     compareXml(expected, getOpenOrders(1234))
   }
 
-  test("get orders for single order id") {
-    val expected =
-      <xmlrequest requestOp="getOrdersForUser">
-        <orderID>
-          {1234}
-        </orderID>
-      </xmlrequest>
-
-    compareXml(expected, getOrdersForUser(List(1234)))
-  }
-
-  test("get orders for multiple order ids") {
+  test("get orders for user") {
     val expected =
       <xmlrequest requestOp="getOrdersForUser">
         <orderID>
@@ -82,10 +71,26 @@ class RequestsTest extends FunSuite {
   test("get user messages from timestamp") {
     val expected =
       <xmlrequest requestOp="getUserMessages">
-        <timestamp>{12345}</timestamp>
+        <timestamp>
+          {12345}
+        </timestamp>
       </xmlrequest>
 
     compareXml(expected, getUserMessages(12345))
+  }
+
+  test("set messages as read") {
+    val expected =
+      <xmlrequest requestOp="setAsRead">
+        <userNotificationID>
+          {1234}
+        </userNotificationID>
+        <userNotificationID>
+          {5678}
+        </userNotificationID>
+      </xmlrequest>
+
+    compareXml(expected, setAsRead(List(1234, 5678)))
   }
 
   private def compareXml(expected: Node, actual: Node) {
