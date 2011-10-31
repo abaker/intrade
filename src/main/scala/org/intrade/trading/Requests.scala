@@ -20,19 +20,40 @@ object Requests {
     throw new RuntimeException("not implemented")
 
   def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
-    throw new RuntimeException("not implemented")
+    <xmlrequest requestOp="cancelMultipleOrdersForUser">
+      {for (orderID <- orderIDs) yield
+      <orderID>
+        {orderID}
+      </orderID>}
+    </xmlrequest>
 
   def cancelAllInContract(contractID: Int) =
-    throw new RuntimeException("not implemented")
+    <xmlrequest requestOp="cancelAllInContract">
+      <contractID>
+        {contractID}
+      </contractID>
+    </xmlrequest>
 
   def cancelAllBids(contractID: Int) =
-    throw new RuntimeException("not implemented")
+    <xmlrequest requestOp="cancelAllBids">
+      <contractID>
+        {contractID}
+      </contractID>
+    </xmlrequest>
 
   def cancelAllOffers(contractID: Int) =
-    throw new RuntimeException("not implemented")
+    <xmlrequest requestOp="cancelAllOffers">
+      <contractID>
+        {contractID}
+      </contractID>
+    </xmlrequest>
 
   def cancelAllInEvent(eventID: Int) =
-    throw new RuntimeException("not implemented")
+    <xmlrequest requestOp="cancelAllInEvent">
+      <eventID>
+        {eventID}
+      </eventID>
+    </xmlrequest>
 
   def cancelAllOrdersForUser =
       <xmlrequest requestOp="cancelAllOrdersForUser"/>

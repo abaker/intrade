@@ -106,6 +106,64 @@ class RequestsTest extends FunSuite {
     compareXml(<xmlrequest requestOp="cancelAllOrdersForUser"/>, cancelAllOrdersForUser)
   }
 
+  test("cancel all for event id") {
+    val expected =
+      <xmlrequest requestOp="cancelAllInEvent">
+        <eventID>
+          {1234}
+        </eventID>
+      </xmlrequest>
+
+    compareXml(expected, cancelAllInEvent(1234))
+  }
+
+  test("cancel all in contract") {
+    val expected =
+      <xmlrequest requestOp="cancelAllInContract">
+        <contractID>
+          {1234}
+        </contractID>
+      </xmlrequest>
+
+    compareXml(expected, cancelAllInContract(1234))
+  }
+
+  test("cancel all bids in contract") {
+    val expected =
+      <xmlrequest requestOp="cancelAllBids">
+        <contractID>
+          {1234}
+        </contractID>
+      </xmlrequest>
+
+    compareXml(expected, cancelAllBids(1234))
+  }
+
+  test("cancel all offers in contract") {
+    val expected =
+      <xmlrequest requestOp="cancelAllOffers">
+        <contractID>
+          {1234}
+        </contractID>
+      </xmlrequest>
+
+    compareXml(expected, cancelAllOffers(1234))
+  }
+
+  test("cancel multiple orders") {
+    val expected =
+      <xmlrequest requestOp="cancelMultipleOrdersForUser">
+        <orderID>
+          {1234}
+        </orderID>
+        <orderID>
+          {5678}
+        </orderID>
+      </xmlrequest>
+
+    compareXml(expected, cancelMultipleOrdersForUser(List(1234, 5678)))
+  }
+
   private def compareXml(expected: Node, actual: Node) {
     expect(trim(expected)) {
       trim(actual)
