@@ -1,5 +1,8 @@
 package org.intrade.trading
 
+import orders._
+import org.intrade.trading.Side._
+
 object Requests {
   def getLogin(username: String, password: String) =
     <xmlrequest requestOp="getLogin">
@@ -13,11 +16,39 @@ object Requests {
 
   def getBalance = <xmlrequest requestOp="getBalance"/>
 
-  def updateMultiOrder =
-    throw new RuntimeException("not implemented")
+  def multiOrderRequest(orders: Seq[OrderRequest], cancelPrevious: Boolean = false, quickCancel: Boolean = false) =
+    <xmlrequest requestOp="multiOrderRequest">
+      {if (cancelPrevious) {
+      if (quickCancel)
+        <cancelPrevious>true</cancelPrevious> <quickCancel>true</quickCancel>
+      else
+        <cancelPrevious>true</cancelPrevious>
+    }}{for (order <- orders) yield
+      <order>
+        {orderToOrderString(order)}
+      </order>}
+    </xmlrequest>
 
-  def multiOrderRequest =
-    throw new RuntimeException("not implemented")
+  def timeInForce[T <: OrderRequest](order: T) = order match {
+    case order: GoodTilTime => "timeInForce=GTT,timeToExpire=%s" format order.timeToExpire
+    case order: GoodForSession => "timeInForce=GFS"
+    case order: OrderRequest => "timeInForce=GTC"
+  }
+
+  def orderType[T <: OrderRequest](order: T) = order match {
+    case order: Touch => ",orderType=T,touchPrice=%s" format order.touchPrice
+    case order: FillOrKill => ",orderType=F"
+    case order: OrderRequest => ""
+  }
+
+  def orderToOrderString[T <: OrderRequest](order: T) =
+    "conID=%s,side=%s,limitPrice=%s,quantity=%s,%s%s" format(
+      order.conID, sideToString(order.side), order.limitprice, order.quantity, timeInForce(order), orderType(order))
+
+  def sideToString(side: Side) = side match {
+    case Buy => "B"
+    case Sell => "S"
+  }
 
   def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
     <xmlrequest requestOp="cancelMultipleOrdersForUser">
