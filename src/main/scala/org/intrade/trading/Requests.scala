@@ -13,6 +13,30 @@ object Requests {
 
   def getBalance = <xmlrequest requestOp="getBalance"/>
 
+  def updateMultiOrder =
+    throw new RuntimeException("not implemented")
+
+  def multiOrderRequest =
+    throw new RuntimeException("not implemented")
+
+  def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
+    throw new RuntimeException("not implemented")
+
+  def cancelAllInContract(contractID: Int) =
+    throw new RuntimeException("not implemented")
+
+  def cancelAllBids(contractID: Int) =
+    throw new RuntimeException("not implemented")
+
+  def cancelAllOffers(contractID: Int) =
+    throw new RuntimeException("not implemented")
+
+  def cancelAllInEvent(eventID: Int) =
+    throw new RuntimeException("not implemented")
+
+  def cancelAllOrdersForUser =
+      <xmlrequest requestOp="cancelAllOrdersForUser"/>
+
   def getPosForUser(contractID: Int = 0) =
     <xmlrequest requestOp="getPosForUser">
       {if (contractID > 0)
@@ -51,5 +75,13 @@ object Requests {
       <userNotificationID>
         {notificationID}
       </userNotificationID>}
+    </xmlrequest>
+
+  def getTradesForUser =
+    throw new RuntimeException("not implemented")
+
+  def getGSXToday =
+    <xmlrequest requestOp="getGSXToday">
+      <checkMessages>true</checkMessages>
     </xmlrequest>
 }

@@ -93,6 +93,19 @@ class RequestsTest extends FunSuite {
     compareXml(expected, setAsRead(List(1234, 5678)))
   }
 
+  test("check messages") {
+    val expected =
+      <xmlrequest requestOp="getGSXToday">
+        <checkMessages>true</checkMessages>
+      </xmlrequest>
+
+    compareXml(expected, getGSXToday)
+  }
+
+  test("cancel all orders for user") {
+    compareXml(<xmlrequest requestOp="cancelAllOrdersForUser"/>, cancelAllOrdersForUser)
+  }
+
   private def compareXml(expected: Node, actual: Node) {
     expect(trim(expected)) {
       trim(actual)
