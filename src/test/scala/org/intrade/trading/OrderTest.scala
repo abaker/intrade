@@ -3,9 +3,9 @@ package org.intrade.trading
 import org.scalatest.FunSuite
 
 class OrderTest extends FunSuite {
-  test("should parse gtc limit order") {
+  test("should parse gtc order") {
     val node =
-      <order orderID="645440077">
+      <order orderID="647977055">
         <conID>743474</conID>
         <limitprice>99.9</limitprice>
         <type>Limit</type>
@@ -13,13 +13,12 @@ class OrderTest extends FunSuite {
         <quantity>5</quantity>
         <originalQuantity>5</originalQuantity>
         <timeInForce>GTC</timeInForce>
-        <touchprice>0.0</touchprice>
-        <visibleTime>1318693421219</visibleTime>
+        <visibleTime>1320180736550</visibleTime>
       </order>
 
     val order = Order(node)
 
-    expect(645440077) {
+    expect(647977055) {
       order.orderID
     }
     expect(743474) {
@@ -43,10 +42,7 @@ class OrderTest extends FunSuite {
     expect(TimeInForce.Good_Til_Cancel) {
       order.timeInForce
     }
-    expect(BigDecimal(0.0)) {
-      order.touchprice
-    }
-    expect(1318693421219L) {
+    expect(1320180736550L) {
       order.visibleTime
     }
   }

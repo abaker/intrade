@@ -16,7 +16,6 @@ object Order {
                        quantity: Int,
                        originalQuantity: Int,
                        timeInForce: TimeInForce,
-                       touchprice: BigDecimal,
                        visibleTime: Long)
     extends Order
 
@@ -30,7 +29,6 @@ object Order {
       node \ "quantity",
       node \ "originalQuantity",
       node \ "timeInForce",
-      node \ "touchprice",
       node \ "visibleTime")
 }
 
@@ -50,8 +48,6 @@ trait Order {
   def originalQuantity: Int
 
   def timeInForce: TimeInForce
-
-  def touchprice: BigDecimal
 
   def visibleTime: Long
 }
