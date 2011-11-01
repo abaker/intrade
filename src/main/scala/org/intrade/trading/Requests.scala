@@ -5,7 +5,7 @@ import org.intrade.trading.TimeInForce._
 import org.intrade.trading.OrderType._
 
 object Requests {
-  def getLogin(username: String, password: String) =
+  def getLogin(username: String, password: String, appID: String) =
     <xmlrequest requestOp="getLogin">
       <membershipNumber>
         {username}
@@ -13,6 +13,9 @@ object Requests {
       <password>
         {password}
       </password>
+      <appID>
+        {appID}
+      </appID>
     </xmlrequest>
 
   def getBalance = <xmlrequest requestOp="getBalance"/>

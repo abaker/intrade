@@ -26,9 +26,10 @@ class RequestsTest extends FunSuite {
       <xmlrequest requestOp="getLogin">
         <membershipNumber>some.user</membershipNumber>
         <password>passw0rd</password>
+        <appID>app.v1</appID>
       </xmlrequest>
 
-    compareXml(expected, getLogin("some.user", "passw0rd"))
+    compareXml(expected, getLogin("some.user", "passw0rd", "app.v1"))
   }
 
   test("create balance request") {

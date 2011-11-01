@@ -11,14 +11,10 @@ import xml.{XML, Node}
 object API {
   def getLogin(env: Environment, username: String, password: String, appID: String) = {
     val url = new URL(Environment.tradingUrl(env))
-    send(url, Requests.getLogin(username, password)
-      .append(
-      <appID>
-        {appID}
-      </appID>))
+    send(url, Requests.getLogin(username, password, appID), Login.apply)
   }
 
-  def send(url: URL, request: Node) = {
+  def send[A](url: URL, request: Node, f: Node => A): Response[A] = {
     val conn = url.openConnection()
     conn.setDoOutput(true)
     val printWriter = new PrintWriter(conn.getOutputStream)
@@ -29,7 +25,7 @@ object API {
     val text = stream.getLines().mkString
     println("Response: " + text)
     stream.close()
-    XML.loadString(text)
+    Response[A](request, XML.loadString(text), f)
   }
 
   def apply(env: Environment, appID: String, sessionData: String) = new API {
@@ -47,10 +43,11 @@ object API {
     def getPosForUser(contractId: Int = 0) =
       send(Requests.getPosForUser(contractId), node => node \ "position" map Position.apply)
 
-    private def send[A](request: Node, f: Node => A): Response[A] = {
-      val result = API.send(url, request.append(auth))
-      Response(request, result, f)
-    }
+    def getOpenOrders(contractId: Int = 0) =
+      send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
+
+    private def send[A](request: Node, f: Node => A): Response[A] =
+      API.send(url, request.append(auth), f)
   }
 }
 
