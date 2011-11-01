@@ -56,9 +56,6 @@ object API {
     def getOpenOrders(contractId: Int) =
       send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
 
-    def getOrdersForUser(orderID: Int) =
-      send(Requests.getOrdersForUser(List(orderID)), node => OrderDetails(node \ "order" head))
-
     def getOrdersForUser(orderIDs: Seq[Int]) =
       send(Requests.getOrdersForUser(orderIDs), node => node \ "order" map OrderDetails.apply)
 
@@ -77,6 +74,9 @@ object API {
     def cancelAllOrdersForUser =
       send(Requests.cancelAllOrdersForUser, CancelConfirmation.apply)
 
+    def getGSXToday =
+      send(Requests.getGSXToday, node => node.attribute("hasMessages").isDefined)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -93,8 +93,6 @@ trait API {
 
   def getOpenOrders(contractId: Int): Response[Seq[Order]]
 
-  def getOrdersForUser(orderID: Int): Response[OrderDetails]
-
   def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 
   def getCancelAllInContract(contractID: Int): Response[CancelConfirmation]
@@ -106,4 +104,6 @@ trait API {
   def cancelAllInEvent(eventID: Int): Response[CancelConfirmation]
 
   def cancelAllOrdersForUser: Response[CancelConfirmation]
+
+  def getGSXToday: Response[Boolean]
 }

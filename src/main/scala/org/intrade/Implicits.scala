@@ -25,7 +25,7 @@ object Implicits {
   }
 
   implicit def nodeSeq2LongOption(node: NodeSeq): Option[Long] = node.text match {
-    case "-" => Option.empty
+    case "-" | "" => Option.empty
     case s: String => Option(s)
   }
 

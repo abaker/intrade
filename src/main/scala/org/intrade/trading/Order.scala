@@ -16,7 +16,8 @@ object Order {
                        quantity: Int,
                        originalQuantity: Int,
                        timeInForce: TimeInForce,
-                       visibleTime: Long)
+                       visibleTime: Long,
+                       gtd: Option[Long])
     extends Order
 
   def apply(node: Node) =
@@ -29,7 +30,8 @@ object Order {
       node \ "quantity",
       node \ "originalQuantity",
       node \ "timeInForce",
-      node \ "visibleTime")
+      node \ "visibleTime",
+      node \ "GTD")
 }
 
 trait Order {
@@ -50,4 +52,6 @@ trait Order {
   def timeInForce: TimeInForce
 
   def visibleTime: Long
+
+  def gtd: Option[Long]
 }

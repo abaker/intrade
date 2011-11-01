@@ -3,6 +3,30 @@ package org.intrade.trading
 import org.scalatest.FunSuite
 
 class OrderTest extends FunSuite {
+  test("gtt order") {
+    val node =
+      <order orderID="647987458">
+        <conID>743475</conID>
+        <GTD>1320185823944</GTD>
+        <limitprice>0.1</limitprice>
+        <type>Limit</type>
+        <side>B</side>
+        <quantity>1</quantity>
+        <originalQuantity>1</originalQuantity>
+        <timeInForce>GTT</timeInForce>
+        <visibleTime>1320185703981</visibleTime>
+      </order>
+
+    val order = Order(node)
+
+    expect(Option(1320185823944L)) {
+      order.gtd
+    }
+    expect(TimeInForce.Good_Til_Time) {
+      order.timeInForce
+    }
+  }
+
   test("should parse gtc order") {
     val node =
       <order orderID="647977055">
@@ -44,6 +68,9 @@ class OrderTest extends FunSuite {
     }
     expect(1320180736550L) {
       order.visibleTime
+    }
+    expect(Option.empty) {
+      order.gtd
     }
   }
 }
