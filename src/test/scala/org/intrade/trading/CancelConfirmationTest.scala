@@ -3,7 +3,7 @@ package org.intrade.trading
 import org.scalatest.FunSuite
 
 class CancelConfirmationTest extends FunSuite {
-  test("Should process cancel confirmation") {
+  test("Should process basic cancel confirmation") {
     val node =
       <tsResponse requestOp="getCancelAllInContract" resultCode="0" timestamp="1320180078623" timetaken="320">
         <isEndOfDay>false</isEndOfDay>
@@ -22,6 +22,29 @@ class CancelConfirmationTest extends FunSuite {
     expect(true) {
       conf.didCancel
     }
+
+    expect(List()) {
+      conf.orderIDs
+    }
   }
 
+  test("process cancel multiple orders for user response") {
+    val node =
+      <tsResponse timetaken="392" timestamp="1320188488094" resultCode="0" requestOp="cancelMultipleOrdersForUser">
+        <isEndOfDay>false</isEndOfDay>
+        <didCancel>true</didCancel>
+        <orderCancelList>
+          <ordID>647981565</ordID>
+          <ordID>647981384</ordID>
+        </orderCancelList>
+        <faildesc></faildesc>
+        <sessionData>27e4d60b128c71092a040066df4f9f34ZACED000574000A62616B65722E616C6578Z47BEB6075C6D5BECE1F3A0F329491B97185D82322A40C2BC4139EFA38CCDCCF6EF210360387A964EB40ED23A1A626F203759E9899CAD8E5AE17EA84F60F29ED44AD54C6762A1DC6FBCA6E246A7AD916F31E761F56279BB5C6B4C53D6DE4BFAE6C402B78055661858404CC7E578A4A687D64FC852E35036578CB31EF5FC762F107E671B1AA20C2D5AAF5148671FA987AFB11044882AFAB2D3475E4E9AAEBA1BEB515E5450DE0EC035262F21AA2C0B5DF7056AFA70ECB2B8D964E0E04216D4E9F3BDCBCF1C88B22B645C8B0574E6C4EE037C30360B210BF9078379F3F58DEADB11FE009DA156FAB3F1F16E61F3AE853B4E618CE9E1BD73D8A4912A2E41872FA47F27DB3B5ECF2A69E8A4CF7321B69A0A40F0E1F9EB14817EF81011E0224D4E6E7979E7CFC28B5926CF</sessionData>
+      </tsResponse>
+
+    val conf = CancelConfirmation(node)
+
+    expect(List(647981565, 647981384)) {
+      conf.orderIDs
+    }
+  }
 }

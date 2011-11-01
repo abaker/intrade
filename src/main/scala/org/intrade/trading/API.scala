@@ -74,6 +74,9 @@ object API {
     def cancelAllOrdersForUser =
       send(Requests.cancelAllOrdersForUser, CancelConfirmation.apply)
 
+    def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
+      send(Requests.cancelMultipleOrdersForUser(orderIDs), CancelConfirmation.apply)
+
     def getGSXToday =
       send(Requests.getGSXToday, node => node.attribute("hasMessages").isDefined)
 
@@ -110,6 +113,8 @@ trait API {
   def cancelAllInEvent(eventID: Int): Response[CancelConfirmation]
 
   def cancelAllOrdersForUser: Response[CancelConfirmation]
+
+  def cancelMultipleOrdersForUser(orderIDs: Seq[Int]): Response[CancelConfirmation]
 
   def getGSXToday: Response[Boolean]
 
