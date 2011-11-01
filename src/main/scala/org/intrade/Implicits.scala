@@ -34,13 +34,10 @@ object Implicits {
     case s: String => Option(s)
   }
 
-  implicit def prepend2Children(node: NodeSeq) = new {
+  implicit def append2Children(node: NodeSeq) = new {
     def prepend(addMe: NodeSeq) = node match {
       case Elem(prefix, label, attribs, scope, child@_*) =>
-        Elem(prefix, label, attribs, scope, addMe ++ child: _*)
+        Elem(prefix, label, attribs, scope, child ++ addMe: _*)
     }
-
-    def prependIf(pred: Boolean, addMe: NodeSeq) =
-      prepend(if (pred) addMe else NodeSeq.Empty)
   }
 }
