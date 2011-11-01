@@ -46,6 +46,9 @@ object API {
     def getOpenOrders(contractId: Int = 0) =
       send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
 
+    def getOrdersForUser(orderIDs: Seq[Int]) =
+      send(Requests.getOrdersForUser(orderIDs), node => node \ "order" map OrderDetails.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
