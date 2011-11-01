@@ -86,6 +86,9 @@ object API {
     def getUserMessages(timestamp: Long) =
       send(Requests.getUserMessages(timestamp), node => node \ "msg" map UserMessage.apply)
 
+    def setAsRead(messageIDs: Seq[Int]) =
+      send(Requests.setAsRead(messageIDs), _ => ())
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -121,4 +124,6 @@ trait API {
   def getUserMessages: Response[Seq[UserMessage]]
 
   def getUserMessages(timestamp: Long): Response[Seq[UserMessage]]
+
+  def setAsRead(messageIDs: Seq[Int]): Response[Unit]
 }
