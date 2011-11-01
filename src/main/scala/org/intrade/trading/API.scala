@@ -58,4 +58,8 @@ trait API {
   def getBalance: Response[Balance]
 
   def getPosForUser(contractId: Int = 0): Response[Seq[Position]]
+
+  def getOpenOrders(contractId: Int = 0): Response[Seq[Order]]
+
+  def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 }
