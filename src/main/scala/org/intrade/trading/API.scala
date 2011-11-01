@@ -77,6 +77,12 @@ object API {
     def getGSXToday =
       send(Requests.getGSXToday, node => node.attribute("hasMessages").isDefined)
 
+    def getUserMessages =
+      send(Requests.getUserMessages(), node => node \ "msg" map UserMessage.apply)
+
+    def getUserMessages(timestamp: Long) =
+      send(Requests.getUserMessages(timestamp), node => node \ "msg" map UserMessage.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -106,4 +112,8 @@ trait API {
   def cancelAllOrdersForUser: Response[CancelConfirmation]
 
   def getGSXToday: Response[Boolean]
+
+  def getUserMessages: Response[Seq[UserMessage]]
+
+  def getUserMessages(timestamp: Long): Response[Seq[UserMessage]]
 }
