@@ -56,6 +56,12 @@ object API {
     def getCancelAllInContract(contractID: Int) =
       send(Requests.getCancelAllInContract(contractID), CancelConfirmation.apply)
 
+    def getCancelAllBids(contractID: Int) =
+      send(Requests.getCancelAllBids(contractID), CancelConfirmation.apply)
+
+    def getCancelAllOffers(contractID: Int) =
+      send(Requests.getCancelAllOffers(contractID), CancelConfirmation.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -71,4 +77,8 @@ trait API {
   def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 
   def getCancelAllInContract(contractID: Int): Response[CancelConfirmation]
+
+  def getCancelAllBids(contractID: Int): Response[CancelConfirmation]
+
+  def getCancelAllOffers(contractID: Int): Response[CancelConfirmation]
 }
