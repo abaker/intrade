@@ -10,8 +10,11 @@ object API {
   def apply(env: Environment) = new API {
     private val urls = new URLProvider(env)
 
-    def activeContractListing(optionalEventClass: Int = 0) =
-      process(urls.activeContractListing(optionalEventClass), xmlRequest, node2EventClassResponse)
+    def activeContractListing =
+      process(urls.activeContractListing(), xmlRequest, node2EventClassResponse)
+
+    def activeContractListing(eventClass: Int) =
+      process(urls.activeContractListing(eventClass), xmlRequest, node2EventClassResponse)
 
     def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5) =
       process(urls.priceInformation(contractIds, timestamp, depth), xmlRequest, node2PriceInformationResponse)
@@ -40,7 +43,9 @@ object API {
 }
 
 trait API {
-  def activeContractListing(optionalEventClass: Int = 0): Response[Node, EventClass]
+  def activeContractListing: Response[Node, EventClass]
+
+  def activeContractListing(eventClass: Int): Response[Node, EventClass]
 
   def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5): Response[Node, PriceInformation]
 

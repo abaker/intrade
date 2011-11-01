@@ -13,9 +13,9 @@ class URLProvider(env: Environment) {
   private val closingPrice = "%s/MarketData/ClosingPrice.jsp?conID=%s" format(root, "%s")
   private val trades = "%s/TradeData/TimeAndSales.jsp?conID=%s" format(root, "%s")
 
-  def activeContractListing(eventClassId: Int) = eventClassId match {
-    case x if x > 0 => allContractsByEventClass format x
-    case _ => allContracts
+  def activeContractListing(eventClassId: Int = 0) = eventClassId match {
+    case x if x == 0 => allContracts
+    case x => allContractsByEventClass format x
   }
 
   def priceInformation(contractIds: Seq[Int], timestamp: Long, depth: Int) = depth match {
