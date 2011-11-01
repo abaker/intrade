@@ -56,6 +56,9 @@ object API {
     def getOpenOrders(contractId: Int) =
       send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
 
+    def getOrdersForUser(orderID: Int) =
+      send(Requests.getOrdersForUser(List(orderID)), node => OrderDetails(node \ "order" head))
+
     def getOrdersForUser(orderIDs: Seq[Int]) =
       send(Requests.getOrdersForUser(orderIDs), node => node \ "order" map OrderDetails.apply)
 
@@ -89,6 +92,8 @@ trait API {
   def getOpenOrders: Response[Seq[Order]]
 
   def getOpenOrders(contractId: Int): Response[Seq[Order]]
+
+  def getOrdersForUser(orderID: Int): Response[OrderDetails]
 
   def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 
