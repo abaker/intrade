@@ -8,7 +8,7 @@ object OrderStatus extends Enumeration {
   Deleted_By_Admin, Filled, Expired, Mass_Delete, Settled, Rejected,
   Cancel_Rejected = Value
 
-  implicit def nodeSeq2OrderStatus(node: NodeSeq) = node.text match {
+  implicit def nodeSeq2OrderStatus(node: NodeSeq) = node.text.trim match {
     case "LCO" => Limit_Checked
     case "CEN" => New
     case "CEMX" => Partially_Filled
