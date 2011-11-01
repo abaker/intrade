@@ -49,6 +49,9 @@ object API {
     def getOrdersForUser(orderIDs: Seq[Int]) =
       send(Requests.getOrdersForUser(orderIDs), node => node \ "order" map OrderDetails.apply)
 
+    def getCancelAllInContract(contractID: Int) =
+      send(Requests.getCancelAllInContract(contractID), CancelConfirmation.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -62,4 +65,6 @@ trait API {
   def getOpenOrders(contractId: Int = 0): Response[Seq[Order]]
 
   def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
+
+  def getCancelAllInContract(contractID: Int): Response[CancelConfirmation]
 }
