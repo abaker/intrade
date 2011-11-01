@@ -88,22 +88,22 @@ object Requests {
       </orderID>}
     </xmlrequest>
 
-  def cancelAllInContract(contractID: Int) =
-    <xmlrequest requestOp="cancelAllInContract">
+  def getCancelAllInContract(contractID: Int) =
+    <xmlrequest requestOp="getCancelAllInContract">
       <contractID>
         {contractID}
       </contractID>
     </xmlrequest>
 
-  def cancelAllBids(contractID: Int) =
-    <xmlrequest requestOp="cancelAllBids">
+  def getCancelAllBids(contractID: Int) =
+    <xmlrequest requestOp="getCancelAllBids">
       <contractID>
         {contractID}
       </contractID>
     </xmlrequest>
 
-  def cancelAllOffers(contractID: Int) =
-    <xmlrequest requestOp="cancelAllOffers">
+  def getCancelAllOffers(contractID: Int) =
+    <xmlrequest requestOp="getCancelAllOffers">
       <contractID>
         {contractID}
       </contractID>

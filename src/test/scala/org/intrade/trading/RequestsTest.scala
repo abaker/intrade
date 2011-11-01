@@ -135,35 +135,35 @@ class RequestsTest extends FunSuite {
 
   test("cancel all in contract") {
     val expected =
-      <xmlrequest requestOp="cancelAllInContract">
+      <xmlrequest requestOp="getCancelAllInContract">
         <contractID>
           {1234}
         </contractID>
       </xmlrequest>
 
-    compareXml(expected, cancelAllInContract(1234))
+    compareXml(expected, getCancelAllInContract(1234))
   }
 
   test("cancel all bids in contract") {
     val expected =
-      <xmlrequest requestOp="cancelAllBids">
+      <xmlrequest requestOp="getCancelAllBids">
         <contractID>
           {1234}
         </contractID>
       </xmlrequest>
 
-    compareXml(expected, cancelAllBids(1234))
+    compareXml(expected, getCancelAllBids(1234))
   }
 
   test("cancel all offers in contract") {
     val expected =
-      <xmlrequest requestOp="cancelAllOffers">
+      <xmlrequest requestOp="getCancelAllOffers">
         <contractID>
           {1234}
         </contractID>
       </xmlrequest>
 
-    compareXml(expected, cancelAllOffers(1234))
+    compareXml(expected, getCancelAllOffers(1234))
   }
 
   test("cancel multiple orders") {
