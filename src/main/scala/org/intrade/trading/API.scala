@@ -62,6 +62,9 @@ object API {
     def getCancelAllOffers(contractID: Int) =
       send(Requests.getCancelAllOffers(contractID), CancelConfirmation.apply)
 
+    def cancelAllInEvent(eventID: Int) =
+      send(Requests.cancelAllInEvent(eventID), CancelConfirmation.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -81,4 +84,6 @@ trait API {
   def getCancelAllBids(contractID: Int): Response[CancelConfirmation]
 
   def getCancelAllOffers(contractID: Int): Response[CancelConfirmation]
+
+  def cancelAllInEvent(eventID: Int): Response[CancelConfirmation]
 }
