@@ -44,10 +44,16 @@ object API {
 
     def getBalance = send(Requests.getBalance, Balance.apply)
 
-    def getPosForUser(contractId: Int = 0) =
-      send(Requests.getPosForUser(contractId), node => node \ "position" map Position.apply)
+    def getPosForUser =
+      send(Requests.getPosForUser(), node => node \ "position" map Position.apply)
 
-    def getOpenOrders(contractId: Int = 0) =
+    def getPosForUser(contractId: Int) =
+      send(Requests.getPosForUser(contractId), node => Position(node \ "position" head))
+
+    def getOpenOrders =
+      send(Requests.getOpenOrders(), node => node \ "order" map Order.apply)
+
+    def getOpenOrders(contractId: Int) =
       send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
 
     def getOrdersForUser(orderIDs: Seq[Int]) =
@@ -76,9 +82,13 @@ object API {
 trait API {
   def getBalance: Response[Balance]
 
-  def getPosForUser(contractId: Int = 0): Response[Seq[Position]]
+  def getPosForUser: Response[Seq[Position]]
 
-  def getOpenOrders(contractId: Int = 0): Response[Seq[Order]]
+  def getPosForUser(contractId: Int): Response[Position]
+
+  def getOpenOrders: Response[Seq[Order]]
+
+  def getOpenOrders(contractId: Int): Response[Seq[Order]]
 
   def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 
