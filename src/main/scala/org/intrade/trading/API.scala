@@ -18,14 +18,18 @@ object API {
     val conn = url.openConnection()
     conn.setDoOutput(true)
     val printWriter = new PrintWriter(conn.getOutputStream)
-    println("Request: " + request.toString())
     printWriter.write(request.toString())
     printWriter.close()
     val stream = fromInputStream(conn.getInputStream)
     val text = stream.getLines().mkString
-    println("Response: " + text)
     stream.close()
-    Response[A](request, XML.loadString(text), f)
+    val response = XML.loadString(text)
+    try {
+      Response[A](request, response, f)
+    } catch {
+      case e: Exception =>
+        throw new RuntimeException("Failed, request: %s, response: %s, error: %s" format(request, response, e))
+    }
   }
 
   def apply(env: Environment, appID: String, sessionData: String) = new API {
