@@ -35,7 +35,7 @@ object Implicits {
   }
 
   implicit def append2Children(node: NodeSeq) = new {
-    def prepend(addMe: NodeSeq) = node match {
+    def append(addMe: NodeSeq) = node match {
       case Elem(prefix, label, attribs, scope, child@_*) =>
         Elem(prefix, label, attribs, scope, child ++ addMe: _*)
     }
