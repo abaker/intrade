@@ -44,6 +44,9 @@ object API {
 
     def getBalance = send(Requests.getBalance, Balance.apply)
 
+    def getPosForUser(contractId: Int = 0) =
+      send(Requests.getPosForUser(contractId), node => node \ "position" map Position.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] = {
       val result = API.send(url, request.append(auth))
       Response(request, result, f)
@@ -53,4 +56,6 @@ object API {
 
 trait API {
   def getBalance: Response[Balance]
+
+  def getPosForUser(contractId: Int = 0): Response[Seq[Position]]
 }
