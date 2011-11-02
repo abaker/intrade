@@ -256,7 +256,7 @@ class RequestsTest extends FunSuite {
     compareXml(expected, multiOrderRequest(List(AdvancedOrderRequestImpl(1234, Buy, 3, 45.5)), true, true))
   }
 
-  test("send basic limit orders") {
+  test("send basic gtc limit orders") {
     val expected =
       <xmlrequest requestOp="updateMultiOrder">
         <timeInForce>GTC</timeInForce>
@@ -269,6 +269,34 @@ class RequestsTest extends FunSuite {
         BasicOrderRequestImpl(1234, Side.Sell, 75, BigDecimal(99.9)))
 
     compareXml(expected, updateMultiOrder(orders))
+  }
+
+  test("send gfs limit order with ordinary cancel") {
+    val expected =
+      <xmlrequest requestOp="updateMultiOrder">
+        <timeInForce>GFS</timeInForce>
+        <cancelPrevious>true</cancelPrevious>
+          <order conID="1234" limitprice="50.1" quantity="25" side="B"/>
+      </xmlrequest>
+
+    val order = BasicOrderRequestImpl(1234, Side.Buy, 25, BigDecimal(50.1))
+
+    compareXml(expected, updateMultiOrder(List(order), true, false, TimeInForce.Good_For_Session))
+  }
+
+  test("send gtt limit order with quick cancel") {
+    val expected =
+      <xmlrequest requestOp="updateMultiOrder">
+        <timeInForce>GTT</timeInForce>
+        <timeToExpire>{12345}</timeToExpire>
+        <cancelPrevious>true</cancelPrevious>
+        <quickCancel>true</quickCancel>
+          <order conID="1234" limitprice="50.1" quantity="25" side="B"/>
+      </xmlrequest>
+
+    val order = BasicOrderRequestImpl(1234, Side.Buy, 25, BigDecimal(50.1))
+
+    compareXml(expected, updateMultiOrder(List(order), true, true, TimeInForce.Good_Til_Time, 12345))
   }
 
   private def compareXml(expected: Node, actual: Node) {
