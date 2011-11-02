@@ -1,7 +1,6 @@
 package org.intrade.trading
 
 import io.Source._
-import org.intrade.trading.TimeInForce._
 import org.intrade.trading.Side._
 import org.intrade.Implicits._
 import org.intrade.Environment._
@@ -93,14 +92,6 @@ object API {
     def setAsRead(messageIDs: Seq[Int]) =
       send(Requests.setAsRead(messageIDs), _ => ())
 
-    def updateMultiOrder(orders: Seq[BasicOrderRequest],
-                         cancelPrevious: Boolean = false,
-                         quickCancel: Boolean = false,
-                         timeInForce: TimeInForce = TimeInForce.Good_Til_Cancel,
-                         timeToExpire: Long = 0) =
-      send(Requests.updateMultiOrder(orders, cancelPrevious, quickCancel, timeInForce, timeToExpire),
-        node => node \ "order" map Order.apply)
-
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -136,10 +127,4 @@ trait API {
   def getUserMessages(timestamp: Long): Response[Seq[UserMessage]]
 
   def setAsRead(messageIDs: Seq[Int]): Response[Unit]
-
-  def updateMultiOrder(orders: Seq[BasicOrderRequest],
-                       cancelPrevious: Boolean = false,
-                       quickCancel: Boolean = false,
-                       timeInForce: TimeInForce = TimeInForce.Good_Til_Cancel,
-                       timestamp: Long = 0): Response[Seq[Order]]
 }
