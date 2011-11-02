@@ -1,6 +1,8 @@
 package org.intrade.trading
 
 import io.Source._
+import org.intrade.trading.TimeInForce._
+import org.intrade.trading.Side._
 import org.intrade.Implicits._
 import org.intrade.Environment._
 import org.intrade.Environment
@@ -32,6 +34,9 @@ object API {
     }
   }
 
+  def apply(env: Environment, username: String, password: String, appID: String): API =
+    apply(env, appID, getLogin(env, username, password, appID).sessionData)
+
   def apply(env: Environment, appID: String, sessionData: String) = new API {
     private val url = new URL(Environment.tradingUrl(env))
     private val auth = List(
@@ -44,37 +49,36 @@ object API {
 
     def getBalance = send(Requests.getBalance, Balance.apply)
 
-    def getPosForUser =
+    def getPositions =
       send(Requests.getPosForUser(), node => node \ "position" map Position.apply)
 
-    def getPosForUser(contractId: Int) =
+    def getPosition(contractId: Int) =
       send(Requests.getPosForUser(contractId), node => Position(node \ "position" head))
 
-    def getOpenOrders =
+    def getOrders =
       send(Requests.getOpenOrders(), node => node \ "order" map Order.apply)
 
-    def getOpenOrders(contractId: Int) =
+    def getOrders(contractId: Int) =
       send(Requests.getOpenOrders(contractId), node => node \ "order" map Order.apply)
 
-    def getOrdersForUser(orderIDs: Seq[Int]) =
+    def getOrderDetails(orderIDs: Seq[Int]) =
       send(Requests.getOrdersForUser(orderIDs), node => node \ "order" map OrderDetails.apply)
 
-    def getCancelAllInContract(contractID: Int) =
+    def cancelAll =
+      send(Requests.cancelAllOrdersForUser, CancelConfirmation.apply)
+
+    def cancelAll(contractID: Int) =
       send(Requests.getCancelAllInContract(contractID), CancelConfirmation.apply)
 
-    def getCancelAllBids(contractID: Int) =
-      send(Requests.getCancelAllBids(contractID), CancelConfirmation.apply)
-
-    def getCancelAllOffers(contractID: Int) =
-      send(Requests.getCancelAllOffers(contractID), CancelConfirmation.apply)
+    def cancelAll(contractID: Int, side: Side) = side match {
+      case Buy => send(Requests.getCancelAllBids(contractID), CancelConfirmation.apply)
+      case Sell => send(Requests.getCancelAllOffers(contractID), CancelConfirmation.apply)
+    }
 
     def cancelAllInEvent(eventID: Int) =
       send(Requests.cancelAllInEvent(eventID), CancelConfirmation.apply)
 
-    def cancelAllOrdersForUser =
-      send(Requests.cancelAllOrdersForUser, CancelConfirmation.apply)
-
-    def cancelMultipleOrdersForUser(orderIDs: Seq[Int]) =
+    def cancelOrders(orderIDs: Seq[Int]) =
       send(Requests.cancelMultipleOrdersForUser(orderIDs), CancelConfirmation.apply)
 
     def getGSXToday =
@@ -89,6 +93,14 @@ object API {
     def setAsRead(messageIDs: Seq[Int]) =
       send(Requests.setAsRead(messageIDs), _ => ())
 
+    def updateMultiOrder(orders: Seq[BasicOrderRequest],
+                         cancelPrevious: Boolean = false,
+                         quickCancel: Boolean = false,
+                         timeInForce: TimeInForce = TimeInForce.Good_Til_Cancel,
+                         timeToExpire: Long = 0) =
+      send(Requests.updateMultiOrder(orders, cancelPrevious, quickCancel, timeInForce, timeToExpire),
+        node => node \ "order" map Order.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -97,27 +109,25 @@ object API {
 trait API {
   def getBalance: Response[Balance]
 
-  def getPosForUser: Response[Seq[Position]]
+  def getPositions: Response[Seq[Position]]
 
-  def getPosForUser(contractId: Int): Response[Position]
+  def getPosition(contractId: Int): Response[Position]
 
-  def getOpenOrders: Response[Seq[Order]]
+  def getOrders: Response[Seq[Order]]
 
-  def getOpenOrders(contractId: Int): Response[Seq[Order]]
+  def getOrders(contractId: Int): Response[Seq[Order]]
 
-  def getOrdersForUser(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
+  def getOrderDetails(orderIDs: Seq[Int]): Response[Seq[OrderDetails]]
 
-  def getCancelAllInContract(contractID: Int): Response[CancelConfirmation]
+  def cancelAll: Response[CancelConfirmation]
 
-  def getCancelAllBids(contractID: Int): Response[CancelConfirmation]
+  def cancelAll(contractID: Int): Response[CancelConfirmation]
 
-  def getCancelAllOffers(contractID: Int): Response[CancelConfirmation]
+  def cancelAll(contractID: Int, side: Side): Response[CancelConfirmation]
 
   def cancelAllInEvent(eventID: Int): Response[CancelConfirmation]
 
-  def cancelAllOrdersForUser: Response[CancelConfirmation]
-
-  def cancelMultipleOrdersForUser(orderIDs: Seq[Int]): Response[CancelConfirmation]
+  def cancelOrders(orderIDs: Seq[Int]): Response[CancelConfirmation]
 
   def getGSXToday: Response[Boolean]
 
@@ -126,4 +136,10 @@ trait API {
   def getUserMessages(timestamp: Long): Response[Seq[UserMessage]]
 
   def setAsRead(messageIDs: Seq[Int]): Response[Unit]
+
+  def updateMultiOrder(orders: Seq[BasicOrderRequest],
+                       cancelPrevious: Boolean = false,
+                       quickCancel: Boolean = false,
+                       timeInForce: TimeInForce = TimeInForce.Good_Til_Cancel,
+                       timestamp: Long = 0): Response[Seq[Order]]
 }
