@@ -30,7 +30,7 @@ object API {
       Response[A](request, response, f)
     } catch {
       case e: Exception =>
-        throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, response, e))
+        throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, text, e))
     }
   }
 
