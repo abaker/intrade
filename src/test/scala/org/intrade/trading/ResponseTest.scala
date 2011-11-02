@@ -15,7 +15,7 @@ class ResponseTest extends FunSuite {
 
     val response = Response(request, node, _ => "hello")
 
-    expect(387) {
+    expect(Option(387)) {
       response.timetaken
     }
     expect(1319901651372L) {
@@ -47,6 +47,26 @@ class ResponseTest extends FunSuite {
     }
   }
 
+  test("parse error response without timetaken") {
+    val request = <some_request/>
+
+    val node =
+      <tsResponse requestOp="multiOrderRequest" resultCode="-1" timestamp="1320274622913">
+        <errorcode>900</errorcode>
+        <faildesc>No orders were processed. ContractID: 743 is not valid in current system. It is wrong contract id.</faildesc>
+      </tsResponse>
+
+    val response = Response(request, node, _ => "hello")
+
+    expect(Option.empty) {
+      response.timetaken
+    }
+
+    expect("") {
+      response.sessionData
+    }
+  }
+
   test("should parse response") {
     val request =
         <xmlrequest requestOp="someOperation"/>
@@ -60,7 +80,7 @@ class ResponseTest extends FunSuite {
 
     val response = Response(request, node, _ => "hello")
 
-    expect(538) {
+    expect(Option(538)) {
       response.timetaken
     }
     expect(1318942052571L) {

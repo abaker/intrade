@@ -5,7 +5,7 @@ import org.intrade.Implicits._
 
 object Response {
 
-  case class ResponseImpl[A](timetaken: Int,
+  case class ResponseImpl[A](timetaken: Option[Int],
                              timestamp: Long,
                              resultCode: Int,
                              requestOp: String,
@@ -37,7 +37,7 @@ object Response {
 }
 
 trait Response[+A] {
-  def timetaken: Int
+  def timetaken: Option[Int]
 
   def timestamp: Long
 
