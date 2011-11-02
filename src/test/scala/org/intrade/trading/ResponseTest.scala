@@ -13,7 +13,7 @@ class ResponseTest extends FunSuite {
         <sessionData>ANONYMOUS</sessionData>
       </tsResponse>
 
-    val response = Response(request, node, _ => "hello")
+    val response = Response(request, node, _ => throw new RuntimeException)
 
     expect(Option(387)) {
       response.timetaken
@@ -56,7 +56,7 @@ class ResponseTest extends FunSuite {
         <faildesc>No orders were processed. ContractID: 743 is not valid in current system. It is wrong contract id.</faildesc>
       </tsResponse>
 
-    val response = Response(request, node, _ => "hello")
+    val response = Response(request, node, _ => throw new RuntimeException)
 
     expect(Option.empty) {
       response.timetaken
