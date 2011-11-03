@@ -139,8 +139,22 @@ object Requests {
       </userNotificationID>}
     </xmlrequest>
 
-  def getTradesForUser =
-    throw new RuntimeException("not implemented")
+  def getTradesForUser(contractId: Int) =
+    <xmlrequest requestOp="getTradesForUser">
+      <contractID>
+        {contractId}
+      </contractID>
+    </xmlrequest>
+
+  def getTradesForUser(startDate: Long, endDate: Long = 0) =
+    <xmlrequest requestOp="getTradesForUser">
+      <tradeStartTimestamp>
+        {startDate}
+      </tradeStartTimestamp>{if (endDate > 0)
+      <endDate>
+        {endDate}
+      </endDate>}
+    </xmlrequest>
 
   def getGSXToday =
     <xmlrequest requestOp="getGSXToday">

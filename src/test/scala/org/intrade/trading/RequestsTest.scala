@@ -240,6 +240,42 @@ class RequestsTest extends FunSuite {
     compareXml(expected, multiOrderRequest(List(OrderRequestImpl(1234, Buy, 3, 45.5)), true))
   }
 
+  test("get trades by contract id") {
+    val expected =
+      <xmlrequest requestOp="getTradesForUser">
+        <contractID>
+          {1234}
+        </contractID>
+      </xmlrequest>
+
+    compareXml(expected, getTradesForUser(1234))
+  }
+
+  test("get trades since after timestamp") {
+    val expected =
+      <xmlrequest requestOp="getTradesForUser">
+        <tradeStartTimestamp>
+          {1234L}
+        </tradeStartTimestamp>
+      </xmlrequest>
+
+    compareXml(expected, getTradesForUser(1234L))
+  }
+
+  test("get trades during time period") {
+    val expected =
+      <xmlrequest requestOp="getTradesForUser">
+        <tradeStartTimestamp>
+          {1234L}
+        </tradeStartTimestamp>
+        <endDate>
+          {5678L}
+        </endDate>
+      </xmlrequest>
+
+    compareXml(expected, getTradesForUser(1234L, 5678L))
+  }
+
   private def compareXml(expected: Node, actual: Node) {
     expect(trim(expected)) {
       trim(actual)
