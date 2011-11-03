@@ -98,6 +98,15 @@ object API {
     def multiOrderRequest(orders: Seq[OrderRequest], quickCancel: Boolean) =
       send(Requests.multiOrderRequest(orders, quickCancel), node => node \ "order" map OrderResponse.apply)
 
+    def getTradesForUser(contractId: Int) =
+      send(Requests.getTradesForUser(contractId), node => node \ "trade" map Trade.apply)
+
+    def getTradesForUser(startDate: Long) =
+      send(Requests.getTradesForUser(startDate), node => node \ "trade" map Trade.apply)
+
+    def getTradesForUser(startDate: Long, endDate: Long) =
+      send(Requests.getTradesForUser(startDate, endDate), node => node \ "trade" map Trade.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -137,4 +146,10 @@ trait API {
   def multiOrderRequest(orders: Seq[OrderRequest]): Response[Seq[OrderResponse]]
 
   def multiOrderRequest(orders: Seq[OrderRequest], quickCancel: Boolean = false): Response[Seq[OrderResponse]]
+
+  def getTradesForUser(contractId: Int): Response[Seq[Trade]]
+
+  def getTradesForUser(startDate: Long): Response[Seq[Trade]]
+
+  def getTradesForUser(startDate: Long, endDate: Long): Response[Seq[Trade]]
 }
