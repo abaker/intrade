@@ -10,9 +10,9 @@ import java.io.PrintWriter
 import xml.{XML, Node}
 
 object API {
-  def getLogin(env: Environment, username: String, password: String, appID: String) = {
+  def getLogin(env: Environment, username: String, password: String) = {
     val url = new URL(Environment.tradingUrl(env))
-    send(url, Requests.getLogin(username, password, appID), Login.apply)
+    send(url, Requests.getLogin(username, password), Login.apply)
   }
 
   def send[A](url: URL, request: Node, f: Node => A): Response[A] = {
@@ -34,7 +34,7 @@ object API {
   }
 
   def apply(env: Environment, username: String, password: String, appID: String): API =
-    apply(env, appID, getLogin(env, username, password, appID).sessionData)
+    apply(env, appID, getLogin(env, username, password).sessionData)
 
   def apply(env: Environment, appID: String, sessionData: String) = new API {
     private val url = new URL(Environment.tradingUrl(env))
