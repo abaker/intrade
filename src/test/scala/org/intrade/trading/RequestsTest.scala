@@ -192,7 +192,7 @@ class RequestsTest extends FunSuite {
     val sell = OrderRequestImpl(5678, Sell, 25, 50.0)
     val userRef = OrderRequestImpl(999, Buy, 1, 0.1, "abc123")
 
-    compareXml(expected, multiOrderRequest(List(buy, sell, userRef)))
+    compareXml(expected, multiOrderRequest(List(buy, sell, userRef), false))
   }
 
   test("gfs and gtt") {
@@ -209,7 +209,7 @@ class RequestsTest extends FunSuite {
     val gtt = OrderRequestImpl(5678, Sell, 1, 11.1, "", Good_Til_Time, 12345L)
     val gttWithUserRef = OrderRequestImpl(9191, Sell, 100, 50, "abc123", Good_Til_Time, 98765L)
 
-    compareXml(expected, multiOrderRequest(List(gfs, gfsWithUserRef, gtt, gttWithUserRef)))
+    compareXml(expected, multiOrderRequest(List(gfs, gfsWithUserRef, gtt, gttWithUserRef), false))
   }
 
   test("fok and touch orders") {
@@ -226,17 +226,7 @@ class RequestsTest extends FunSuite {
     val touch = OrderRequestImpl(5678, Sell, 1, 11.1, "", Good_Til_Cancel, 0, OrderType.Touch, 45.0)
     val touchWithUserRef = OrderRequestImpl(9191, Buy, 1, 50, "abc123", Good_Til_Cancel, 0, OrderType.Touch, 99)
 
-    compareXml(expected, multiOrderRequest(List(fok, fokWithUserRef, touch, touchWithUserRef)))
-  }
-
-  test("multi order cancel previous orders") {
-    val expected =
-      <xmlrequest requestOp="multiOrderRequest">
-        <cancelPrevious>true</cancelPrevious>
-        <order>conID=1234,side=B,quantity=3,limitPrice=45.5,timeInForce=GTC</order>
-      </xmlrequest>
-
-    compareXml(expected, multiOrderRequest(List(OrderRequestImpl(1234, Buy, 3, 45.5)), true))
+    compareXml(expected, multiOrderRequest(List(fok, fokWithUserRef, touch, touchWithUserRef), false))
   }
 
   test("multi order cancel with quick cancel") {
@@ -247,7 +237,7 @@ class RequestsTest extends FunSuite {
         <order>conID=1234,side=B,quantity=3,limitPrice=45.5,timeInForce=GTC</order>
       </xmlrequest>
 
-    compareXml(expected, multiOrderRequest(List(OrderRequestImpl(1234, Buy, 3, 45.5)), true, true))
+    compareXml(expected, multiOrderRequest(List(OrderRequestImpl(1234, Buy, 3, 45.5)), true))
   }
 
   private def compareXml(expected: Node, actual: Node) {

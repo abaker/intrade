@@ -20,14 +20,10 @@ object Requests {
 
   def getBalance = <xmlrequest requestOp="getBalance"/>
 
-  def multiOrderRequest(orders: Seq[OrderRequest], cancelPrevious: Boolean = false, quickCancel: Boolean = false) =
+  def multiOrderRequest(orders: Seq[OrderRequest], quickCancel: Boolean) =
     <xmlrequest requestOp="multiOrderRequest">
-      {if (cancelPrevious) {
-      if (quickCancel)
-        <cancelPrevious>true</cancelPrevious> <quickCancel>true</quickCancel>
-      else
-        <cancelPrevious>true</cancelPrevious>
-    }}{for (order <- orders) yield
+      {if (quickCancel)
+      <cancelPrevious>true</cancelPrevious> <quickCancel>true</quickCancel>}{for (order <- orders) yield
       <order>
         {orderToOrderString(order)}
       </order>}
