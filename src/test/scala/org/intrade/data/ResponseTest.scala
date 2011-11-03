@@ -4,14 +4,12 @@ import org.scalatest.FunSuite
 
 class ResponseTest extends FunSuite {
   test("parse empty closing prices response") {
-    val node = <ClosingPrice timestamp="1319667934816"/>
-
-    val response = Response.node2ClosingPriceResponse("http://some_url", node)
+    val response = Response.node2ClosingPriceResponse("http://some_url", "<ClosingPrice timestamp=\"1319667934816\"/>")
 
     expect("http://some_url") {
       response.request
     }
-    expect(node) {
+    expect("<ClosingPrice timestamp=\"1319667934816\"/>") {
       response.response
     }
     expect(Option(1319667934816L)) {
@@ -23,14 +21,12 @@ class ResponseTest extends FunSuite {
   }
 
   test("parse response for invalid contract information request") {
-    val node = <conInfo/>
-
-    val response = Response.node2ContractInformationResponse("http://some_url", node)
+    val response = Response.node2ContractInformationResponse("http://some_url", "<conInfo/>")
 
     expect("http://some_url") {
       response.request
     }
-    expect(node) {
+    expect("<conInfo/>") {
       response.response
     }
     expect(Option.empty) {
