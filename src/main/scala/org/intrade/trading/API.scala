@@ -92,6 +92,12 @@ object API {
     def setAsRead(messageIDs: Seq[Int]) =
       send(Requests.setAsRead(messageIDs), _ => ())
 
+    def multiOrderRequest(orders: Seq[OrderRequest]) =
+      multiOrderRequest(orders, false)
+
+    def multiOrderRequest(orders: Seq[OrderRequest], quickCancel: Boolean) =
+      send(Requests.multiOrderRequest(orders, quickCancel), node => node \ "order" map OrderResponse.apply)
+
     private def send[A](request: Node, f: Node => A): Response[A] =
       API.send(url, request.append(auth), f)
   }
@@ -127,4 +133,8 @@ trait API {
   def getUserMessages(timestamp: Long): Response[Seq[UserMessage]]
 
   def setAsRead(messageIDs: Seq[Int]): Response[Unit]
+
+  def multiOrderRequest(orders: Seq[OrderRequest]): Response[Seq[OrderResponse]]
+
+  def multiOrderRequest(orders: Seq[OrderRequest], quickCancel: Boolean = false): Response[Seq[OrderResponse]]
 }
