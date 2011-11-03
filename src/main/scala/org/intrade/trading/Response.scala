@@ -1,7 +1,7 @@
 package org.intrade.trading
 
-import xml.Node
 import org.intrade.Implicits._
+import xml.{XML, Node}
 
 object Response {
 
@@ -12,12 +12,13 @@ object Response {
                              errorcode: Option[Int],
                              faildesc: String,
                              sessionData: String,
-                             request: Node,
-                             response: Node,
+                             request: String,
+                             response: String,
                              payload: Option[A])
     extends Response[A]
 
-  def apply[A](req: Node, node: Node, f: Node => A) = {
+  def apply[A](req: String, resp: String, f: Node => A) = {
+    val node = XML.loadString(resp)
     val resultCode: Int = node \ "@resultCode"
     ResponseImpl(
       node \ "@timetaken",
@@ -28,7 +29,7 @@ object Response {
       node \ "faildesc",
       node \ "sessionData",
       req,
-      node,
+      resp,
       resultCode match {
         case 0 => Option(f(node))
         case -1 => Option.empty[A]
@@ -53,7 +54,7 @@ trait Response[+A] {
 
   def payload: Option[A]
 
-  def request: Node
+  def request: String
 
-  def response: Node
+  def response: String
 }

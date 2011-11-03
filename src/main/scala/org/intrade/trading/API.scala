@@ -19,17 +19,17 @@ object API {
     val conn = url.openConnection()
     conn.setDoOutput(true)
     val printWriter = new PrintWriter(conn.getOutputStream)
-    printWriter.write(request.toString())
+    val requestString: String = request.toString()
+    printWriter.write(requestString)
     printWriter.close()
     val stream = fromInputStream(conn.getInputStream)
-    val text = stream.getLines().mkString
+    val responseString = stream.getLines().mkString
     stream.close()
-    val response = XML.loadString(text)
     try {
-      Response[A](request, response, f)
+      Response(requestString, responseString, f)
     } catch {
       case e: Exception =>
-        throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, text, e))
+        throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, responseString, e))
     }
   }
 
