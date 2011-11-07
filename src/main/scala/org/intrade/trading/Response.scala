@@ -13,7 +13,7 @@ object Response {
                              faildesc: String,
                              sessionData: String,
                              request: String,
-                             response: String,
+                             raw: String,
                              payload: A)
     extends Response[A]
 

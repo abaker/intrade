@@ -10,7 +10,7 @@ class ResponseTest extends FunSuite {
       response.request
     }
     expect("<ClosingPrice timestamp=\"1319667934816\"/>") {
-      response.response
+      response.raw
     }
     expect(Option(1319667934816L)) {
       response.timestamp
@@ -27,7 +27,7 @@ class ResponseTest extends FunSuite {
       response.request
     }
     expect("<conInfo/>") {
-      response.response
+      response.raw
     }
     expect(Option.empty) {
       response.timestamp

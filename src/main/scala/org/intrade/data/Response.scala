@@ -7,7 +7,7 @@ object Response {
 
   case class ResponseImpl[A](timestamp: Option[Long],
                              request: String,
-                             response: String,
+                             raw: String,
                              payload: A)
     extends Response[A]
 

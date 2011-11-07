@@ -40,7 +40,7 @@ class ResponseTest extends FunSuite {
       response.request
     }
     expect(node) {
-      response.response
+      response.raw
     }
     expect("hello") {
       response.payload
@@ -106,7 +106,7 @@ class ResponseTest extends FunSuite {
       response.request
     }
     expect(node) {
-      response.response
+      response.raw
     }
     expect("hello") {
       response.payload
