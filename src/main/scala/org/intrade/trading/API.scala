@@ -7,7 +7,7 @@ import org.intrade.Environment._
 import org.intrade.Environment
 import java.net.URL
 import java.io.PrintWriter
-import xml.{XML, Node}
+import xml.Node
 
 object API {
   def getLogin(env: Environment, username: String, password: String) = {

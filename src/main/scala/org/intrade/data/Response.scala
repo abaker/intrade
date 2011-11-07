@@ -35,12 +35,6 @@ object Response {
     ResponseImpl(Option.empty, req, resp, resp.lines.toSeq map Trade.apply)
 }
 
-trait Response[+A] {
+trait Response[+A] extends org.intrade.Response[A] {
   def timestamp: Option[Long]
-
-  def request: String
-
-  def response: String
-
-  def payload: A
 }

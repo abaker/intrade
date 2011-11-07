@@ -14,30 +14,26 @@ object Response {
                              sessionData: String,
                              request: String,
                              response: String,
-                             payload: Option[A])
+                             payload: A)
     extends Response[A]
 
-  def apply[A](req: String, resp: String, f: Node => A) = {
-    val node = XML.loadString(resp)
-    val resultCode: Int = node \ "@resultCode"
+  def apply[A](request: String, response: String, f: Node => A) = {
+    val node = XML.loadString(response)
     ResponseImpl(
       node \ "@timetaken",
       node \ "@timestamp",
-      resultCode,
+      node \ "@resultCode",
       node \ "@requestOp",
       node \ "errorcode",
       node \ "faildesc",
       node \ "sessionData",
-      req,
-      resp,
-      resultCode match {
-        case 0 => Option(f(node))
-        case -1 => Option.empty[A]
-      })
+      request,
+      response,
+      f(node))
   }
 }
 
-trait Response[+A] {
+trait Response[+A] extends org.intrade.Response[A] {
   def timetaken: Option[Int]
 
   def timestamp: Long
@@ -51,10 +47,4 @@ trait Response[+A] {
   def faildesc: String
 
   def sessionData: String
-
-  def payload: Option[A]
-
-  def request: String
-
-  def response: String
 }
