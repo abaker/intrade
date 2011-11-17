@@ -1,7 +1,7 @@
 package org.intrade.data
 
 import org.intrade.Implicits._
-import xml.{XML, Node}
+import xml.XML
 
 object Response {
 
