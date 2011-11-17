@@ -23,4 +23,4 @@ From a command prompt navigate to the source directory and execute the following
 
         sbt test:run
 
-SBT will provide you with a list of samples you may run
+SBT will provide you with a list of samples you may run. The samples run against the Intrade Test server
