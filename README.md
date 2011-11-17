@@ -21,6 +21,6 @@ Follow these instructions to [set up SBT].
 
 From a command prompt navigate to the source directory and execute the following command
 
-    $ sbt test:run
+        sbt test:run
 
 SBT will provide you with a list of samples you may run
