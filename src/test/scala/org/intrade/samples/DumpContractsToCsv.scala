@@ -1,15 +1,18 @@
 package org.intrade.samples
 
 import org.intrade._
-import java.util.GregorianCalendar
 import java.text.SimpleDateFormat
+import java.util.Date
 
 object DumpContractsToCsv extends App {
   override def main(args: Array[String]) {
+    // instantiate data api
     val api = data.API(Environment.Test)
-
-    val contractListingResponse = api.activeContractListing
-    val eventClasses = contractListingResponse.payload
+    // use contract cache to fetch and store contract listing
+    val contractCache = new ContractCache(api)
+    val contractResponse = contractCache.loadEventClasses
+    // the response payload contains the sequence of event classes
+    val eventClasses = contractResponse.payload
 
     println(
       joinWithCommas(
@@ -62,13 +65,9 @@ object DumpContractsToCsv extends App {
     }
   }
 
-  def wrapInQuotes(item: Any) = "\"%s\"" format item
+  def wrapInQuotes(item: Any) = "\"%s\"" format (item)
 
   def joinWithCommas(items: Any*) = items.mkString(",")
 
-  def printDate(timestamp: Long) = {
-    val calendar = new GregorianCalendar
-    calendar.setTimeInMillis(timestamp)
-    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(calendar.getTime)
-  }
+  def printDate(timestamp: Long) = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(new Date(timestamp).getTime)
 }
