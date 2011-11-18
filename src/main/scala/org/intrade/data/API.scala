@@ -4,7 +4,6 @@ import io.Source.fromInputStream
 import org.intrade.Environment._
 import org.intrade.data.Response._
 import java.net.URL
-import xml.XML
 
 object API {
   def apply(env: Environment) = new API {
