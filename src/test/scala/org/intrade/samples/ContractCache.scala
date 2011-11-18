@@ -16,9 +16,7 @@ without violating the policy mentioned above. This is not a robust implementatio
 all file operations are successful.
 */
 
-class ContractCache(private val api: data.API, private val filename: String = defaultCacheFile) {
-  private val file = new File(filename)
-
+class ContractCache(private val api: data.API, private val file: File = defaultCacheFile) {
   def loadEventClasses = refreshNeeded match {
     case true => {
       // get contract listing from intrade
@@ -43,20 +41,20 @@ class ContractCache(private val api: data.API, private val filename: String = de
   private def cacheIsStale = file.lastModified() < new Date().getTime - TimeUnit.MINUTES.toMillis(15)
 
   private def writeToFile(contents: String) {
-    using(new FileWriter(filename, false)) {
+    using(new FileWriter(file.getAbsolutePath, false)) {
       _.write(contents)
     }
   }
 
   private def readFromFile = {
-    using(scala.io.Source.fromFile(filename)) {
+    using(scala.io.Source.fromFile(file.getAbsolutePath)) {
       _.mkString
     }
   }
 }
 
 object ContractCache {
-  val defaultCacheFile = "./out/intrade_contract_cache.xml"
+  private val defaultCacheFile = new File("./out/intrade_contract_cache.xml")
 
   private def using[A <: {def close()}, B](resource: A)(f: A => B) =
     try {

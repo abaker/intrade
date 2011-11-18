@@ -69,5 +69,6 @@ object DumpContractsToCsv extends App {
 
   def joinWithCommas(items: Any*) = items.mkString(",")
 
-  def printDate(timestamp: Long) = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(new Date(timestamp).getTime)
+  def printDate(timestamp: Long) =
+    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(new Date(timestamp).getTime)
 }
