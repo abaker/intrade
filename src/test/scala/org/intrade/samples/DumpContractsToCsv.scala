@@ -1,8 +1,7 @@
 package org.intrade.samples
 
 import org.intrade._
-import java.text.SimpleDateFormat
-import java.util.Date
+import org.intrade.samples.CsvHelpers._
 
 object DumpContractsToCsv extends App {
   override def main(args: Array[String]) {
@@ -66,9 +65,4 @@ object DumpContractsToCsv extends App {
   }
 
   def wrapInQuotes(item: Any) = "\"%s\"" format (item)
-
-  def joinWithCommas(items: Any*) = items.mkString(",")
-
-  def printDate(timestamp: Long) =
-    new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(new Date(timestamp).getTime)
 }
