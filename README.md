@@ -1,5 +1,5 @@
-[Intrade API]: http://www.intrade.com/aav2/api/
-[set up SBT]: https://github.com/harrah/xsbt/wiki/Getting-Started-Setup
+[Intrade API]: https://www.intrade.com/v4/misc/help/api/apiDoc.jsp
+[set up SBT]: http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html
 [Intrade]: http://www.intrade.com
 [Download]: https://github.com/abaker/intrade/zipball/master
 
@@ -17,10 +17,10 @@ Follow these instructions to [set up SBT].
 
 [Download] or clone the project from GitHub
 
-# Run the Samples
+# Run the Tests and Samples
 
 From a command prompt navigate to the source directory and execute the following command
 
-        sbt test:run
+        sbt test test:run
 
-SBT will provide you with a list of samples you may run. The samples run against the Intrade Test server
+SBT will run the unit tests and provide you with a list of samples you may run. The samples run against the Intrade Test server
