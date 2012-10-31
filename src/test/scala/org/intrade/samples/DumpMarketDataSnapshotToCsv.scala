@@ -31,9 +31,9 @@ object DumpMarketDataSnapshotToCsv extends App {
     val contractIds = contracts map (_.id)
 
     // split ids into groups of 100
-    val groups = contractIds.grouped(100)
-    val timestamps = Seq.fill(groups.length)(0L)
-    printUpdates(api, groups.toSeq, timestamps)
+    val groups = contractIds.grouped(100).toSeq
+    val timestamps = Seq.fill(groups.size)(0L)
+    printUpdates(api, groups, timestamps)
   }
 
   def printLevel(levels: Seq[BookLevel]) =
