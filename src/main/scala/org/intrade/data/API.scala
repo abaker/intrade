@@ -15,10 +15,10 @@ object API {
     def activeContractListing(eventClass: Int) =
       process(urls.activeContractListing(eventClass), node2EventClassResponse)
 
-    def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5) =
+    def priceInformation(contractIds: Iterable[Int], timestamp: Long = 0, depth: Int = 5) =
       process(urls.priceInformation(contractIds, timestamp, depth), node2PriceInformationResponse)
 
-    def contractInformation(contractIds: Seq[Int]) =
+    def contractInformation(contractIds: Iterable[Int]) =
       process(urls.contractInformation(contractIds), node2ContractInformationResponse)
 
     def closingPrices(contractId: Int) =
@@ -44,9 +44,9 @@ trait API {
 
   def activeContractListing(eventClass: Int): Response[Seq[EventClass]]
 
-  def priceInformation(contractIds: Seq[Int], timestamp: Long = 0, depth: Int = 5): Response[Seq[PriceInformation]]
+  def priceInformation(contractIds: Iterable[Int], timestamp: Long = 0, depth: Int = 5): Response[Seq[PriceInformation]]
 
-  def contractInformation(contractIds: Seq[Int]): Response[Seq[ContractInformation]]
+  def contractInformation(contractIds: Iterable[Int]): Response[Seq[ContractInformation]]
 
   def closingPrices(contractId: Int): Response[Seq[ClosingPrice]]
 

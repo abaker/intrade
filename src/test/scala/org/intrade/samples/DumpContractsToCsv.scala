@@ -1,7 +1,7 @@
 package org.intrade.samples
 
 import org.intrade._
-import org.intrade.samples.CsvHelpers._
+import org.intrade.samples.SampleUtils._
 
 object DumpContractsToCsv extends App {
   override def main(args: Array[String]) {

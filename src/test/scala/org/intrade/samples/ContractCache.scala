@@ -17,21 +17,18 @@ all file operations are successful.
 */
 
 class ContractCache(private val api: data.API, private val file: File = defaultCacheFile) {
-  def loadEventClasses = refreshNeeded match {
-    case true => {
-      // get contract listing from intrade
-      val response = api.activeContractListing
-      // write intrade's xml response to disk
-      writeToFile(response.raw)
-      // return response
-      response
-    }
-    case false => {
-      // fetch intrade's xml response from disk
-      val xmlString = readFromFile
-      // convert to response and return
-      Response.node2EventClassResponse(file.getAbsolutePath, xmlString)
-    }
+  def loadEventClasses = if (refreshNeeded) {
+    // get contract listing from intrade
+    val response = api.activeContractListing
+    // write intrade's xml response to disk
+    writeToFile(response.raw)
+    // return response
+    response
+  } else {
+    // fetch intrade's xml response from disk
+    val xmlString = readFromFile
+    // convert to response and return
+    Response.node2EventClassResponse(file.getAbsolutePath, xmlString)
   }
 
   private def refreshNeeded = cacheDoesNotExist || cacheIsStale

@@ -3,11 +3,7 @@ package org.intrade.samples
 import java.text.SimpleDateFormat
 import java.util.Date
 
-object CsvHelpers {
-  def printRow(items: Any*) {
-    println(joinWithCommas(items))
-  }
-
+object SampleUtils {
   def joinWithCommas(items: Any*) = items.mkString(",")
 
   def printDate(timestamp: Long) =

@@ -18,12 +18,12 @@ class URLProvider(env: Environment) {
     case x => allContractsByEventClass format x
   }
 
-  def priceInformation(contractIds: Seq[Int], timestamp: Long, depth: Int) = depth match {
+  def priceInformation(contractIds: Iterable[Int], timestamp: Long, depth: Int) = depth match {
     case 5 => price format(contractIds.mkString("&id="), timestamp)
     case _ => priceWithDepth format(contractIds.mkString("&id="), timestamp, depth)
   }
 
-  def contractInformation(contractIds: Seq[Int]) = conInfo format contractIds.mkString("&id=")
+  def contractInformation(contractIds: Iterable[Int]) = conInfo format contractIds.mkString("&id=")
 
   def closingPrices(contractId: Int) = closingPrice format contractId
 
