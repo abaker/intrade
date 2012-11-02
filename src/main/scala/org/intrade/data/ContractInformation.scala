@@ -12,6 +12,7 @@ object ContractInformation {
                                      dayhi: Option[BigDecimal],
                                      daylo: Option[BigDecimal],
                                      dayvol: String,
+                                     lastOpenInterest: Option[Int],
                                      lifehi: Option[BigDecimal],
                                      lifelo: Option[BigDecimal],
                                      lstTrdPrc: Option[BigDecimal],
@@ -23,6 +24,8 @@ object ContractInformation {
                                      tickValue: BigDecimal,
                                      totalvol: String,
                                      _type: String,
+                                     marginLinked: Option[Boolean],
+                                     marginGroupId: Option[Int],
                                      symbol: String)
     extends ContractInformation
 
@@ -34,6 +37,7 @@ object ContractInformation {
       node \ "@dayhi",
       node \ "@daylo",
       node \ "@dayvol",
+      node \ "@lastOpenInterest",
       node \ "@lifehi",
       node \ "@lifelo",
       node \ "@lstTrdPrc",
@@ -45,6 +49,8 @@ object ContractInformation {
       node \ "@tickValue",
       node \ "@totalvol",
       node \ "@type",
+      node \ "@marginLinked",
+      node \ "@marginGroupId",
       node \ "symbol")
 }
 
@@ -60,6 +66,8 @@ trait ContractInformation {
   def daylo: Option[BigDecimal]
 
   def dayvol: String
+
+  def lastOpenInterest: Option[Int]
 
   def lifehi: Option[BigDecimal]
 
@@ -82,6 +90,10 @@ trait ContractInformation {
   def totalvol: String
 
   def _type: String
+
+  def marginLinked: Option[Boolean]
+
+  def marginGroupId: Option[Int]
 
   def symbol: String
 }
