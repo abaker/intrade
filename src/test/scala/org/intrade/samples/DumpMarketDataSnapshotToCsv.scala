@@ -3,6 +3,8 @@ package org.intrade.samples
 import org.intrade._
 import data.BookLevel
 import java.util.concurrent.TimeUnit
+import samples.SampleUtils._
+import util.ContractCache
 
 /*
 From Intrade support (11-21-11):
@@ -33,11 +35,21 @@ object DumpMarketDataSnapshotToCsv extends App {
     // split ids into groups of 100
     val groups = contractIds.grouped(100).toSeq
     val timestamps = Seq.fill(groups.size)(0L)
+
+    println(
+      joinWithCommas(
+        "Contract Id",
+        "Contract Name",
+        "Bid Px",
+        "Bid Qty",
+        "Offer Px",
+        "Offer Qty"))
+
     printUpdates(api, groups, timestamps)
   }
 
   def printLevel(levels: Seq[BookLevel]) =
-    if (levels.isEmpty) "" else "%6sx%4s" format(levels.head.quantity, levels.head.price)
+    if (levels.isEmpty) "," else joinWithCommas(levels.head.price, levels.head.quantity)
 
   private def printUpdates(api: data.API, groups: Iterable[Iterable[Int]], timestamps: Iterable[Long]) {
     val responses = (groups, timestamps).zipped.map({
@@ -51,7 +63,12 @@ object DumpMarketDataSnapshotToCsv extends App {
       val response = api.priceInformation(group, timestamp)
       val books = response.payload
       for (book <- books) {
-        println("%s (%s) BID: %11s OFFER: %11s" format(book.symbol, book.conID, printLevel(book.bids), printLevel(book.offers)))
+        println(
+          joinWithCommas(
+            book.conID,
+            book.symbol,
+            printLevel(book.bids),
+            printLevel(book.offers)))
       }
       Thread.sleep(TimeUnit.SECONDS.toMillis(2))
       response.timestamp.get

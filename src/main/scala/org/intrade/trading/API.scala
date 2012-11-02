@@ -33,7 +33,7 @@ object API {
     }
   }
 
-  def apply(env: Environment, username: String, password: String, appID: String): API =
+  def apply(env: Environment, appID: String, username: String, password: String): API =
     apply(env, appID, getLogin(env, username, password).sessionData)
 
   def apply(env: Environment, appID: String, sessionData: String) = new API {

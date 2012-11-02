@@ -1,8 +1,10 @@
 package org.intrade
 
-import xml.{Node, Elem, NodeSeq}
+import xml._
 
 object Implicits {
+  implicit def string2Node(s: String) = XML.loadString(s)
+
   implicit def string2ScalaBigDecimal(s: String) = BigDecimal(s)
 
   implicit def string2JavaLong(s: String) = java.lang.Long.parseLong(s)
