@@ -1,8 +1,8 @@
 package org.intrade.samples
 
+import _root_.java.util.concurrent.TimeUnit
 import org.intrade._
 import data.BookLevel
-import java.util.concurrent.TimeUnit
 import samples.SampleUtils._
 import util.ContractCache
 
