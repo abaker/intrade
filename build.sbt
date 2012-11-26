@@ -8,8 +8,6 @@ version := {
 
 scalaVersion := "2.9.2"
 
-retrieveManaged := true
-
 resolvers += ScalaToolsReleases
 
 libraryDependencies ++= Seq(
