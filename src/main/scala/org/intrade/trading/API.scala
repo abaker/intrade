@@ -10,22 +10,47 @@ import java.io.PrintWriter
 import xml.Node
 
 object API {
-  def prod(username: String, password: String, appID: String) = create(Environment.Live, appID, username, password)
+  def login(env: Environment, username: String, password: String) =
+    send(new URL(Environment.tradingUrl(env)), Requests.getLogin(username, password), Login.apply)
 
-  def test(username: String, password: String, appID: String) = create(Environment.Test, appID, username, password)
+  def prod(appID: String, username: String, password: String) = prod(appID, login(Environment.Live, username, password))
 
-  private def create(env: Environment, appID: String, username: String, password: String) = new API {
-    private val url = new URL(Environment.tradingUrl(env))
-    private val login = send(Requests.getLogin(username, password), Login.apply)
-    if (login.resultCode != 0) {
-      throw new RuntimeException("Login failed: " + login.faildesc)
+  def prod(appID: String, login: Response[Login]) = prod(appID, login.sessionData)
+
+  def prod(appID: String, sessionData: String) = create(Environment.Live, appID, sessionData)
+
+  def test(appID: String, username: String, password: String) = test(appID, login(Environment.Test, username, password))
+
+  def test(appID: String, login: Response[Login]) = test(appID, login.sessionData)
+
+  def test(appID: String, sessionData: String) = create(Environment.Test, appID, sessionData)
+
+  private def send[A](url: URL, request: Node, f: Node => A): Response[A] = {
+    val conn = url.openConnection()
+    conn.setDoOutput(true)
+    val printWriter = new PrintWriter(conn.getOutputStream)
+    val requestString: String = request.toString()
+    printWriter.write(requestString)
+    printWriter.close()
+    val stream = fromInputStream(conn.getInputStream)
+    val responseString = stream.getLines().mkString
+    stream.close()
+    try {
+      Response(requestString, responseString, f)
+    } catch {
+      case e: Exception =>
+        throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, responseString, e))
     }
+  }
+
+  private def create(env: Environment, appID: String, sessionData: String) = new API {
+    private val url = new URL(Environment.tradingUrl(env))
     private val auth = List(
       <appID>
         {appID}
       </appID>,
       <sessionData>
-        {login.sessionData}
+        {sessionData}
       </sessionData>)
 
     def getBalance = send(Requests.getBalance, Balance.apply)
@@ -89,23 +114,8 @@ object API {
     def getTradesForUser(startDate: Long, endDate: Long) =
       send(Requests.getTradesForUser(startDate, endDate), node => node \ "trade" map Trade.apply)
 
-    private def send[A](request: Node, f: Node => A): Response[A] = {
-      val conn = url.openConnection()
-      conn.setDoOutput(true)
-      val printWriter = new PrintWriter(conn.getOutputStream)
-      val requestString: String = request.append(auth).toString()
-      printWriter.write(requestString)
-      printWriter.close()
-      val stream = fromInputStream(conn.getInputStream)
-      val responseString = stream.getLines().mkString
-      stream.close()
-      try {
-        Response(requestString, responseString, f)
-      } catch {
-        case e: Exception =>
-          throw new RuntimeException("FAILED REQUEST: %s, RESPONSE: %s, ERROR: %s" format(request, responseString, e))
-      }
-    }
+    private def send[A](request: Node, f: Node => A): Response[A] =
+      API.send(url, request.append(auth), f)
   }
 }
 
