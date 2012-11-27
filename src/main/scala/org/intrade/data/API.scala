@@ -1,12 +1,17 @@
 package org.intrade.data
 
 import io.Source.fromInputStream
-import org.intrade.Environment._
 import org.intrade.data.Response._
 import java.net.URL
+import org.intrade.Environment
+import org.intrade.Environment.Environment
 
 object API {
-  def apply(env: Environment) = new API {
+  def prod = create(Environment.Live)
+
+  def test = create(Environment.Test)
+
+  private def create(env: Environment) = new API {
     private val urls = new URLProvider(env)
 
     def activeContractListing =

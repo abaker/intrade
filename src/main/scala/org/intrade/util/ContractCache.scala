@@ -2,7 +2,7 @@ package org.intrade.util
 
 import org.intrade._
 import data.Response
-import java.io.File
+import _root_.java.io.File
 
 /*
 From the Intrade API Documentation:
