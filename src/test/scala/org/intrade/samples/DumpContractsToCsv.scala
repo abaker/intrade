@@ -6,13 +6,7 @@ import util.ContractCache
 
 object DumpContractsToCsv extends App {
   override def main(args: Array[String]) {
-    // instantiate data api
-    val api = data.API.test
-    // use contract cache to fetch and store contract listing
-    val contractCache = new ContractCache(api)
-    val contractResponse = contractCache.loadEventClasses
-    // the response payload contains the sequence of event classes
-    val eventClasses = contractResponse.payload
+    val eventClasses = SampleUtils.getEventClasses
 
     println(
       joinWithCommas(

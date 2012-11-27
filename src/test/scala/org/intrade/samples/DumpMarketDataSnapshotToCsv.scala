@@ -20,12 +20,8 @@ to the rate limit
 object DumpMarketDataSnapshotToCsv extends App {
   override def main(args: Array[String]) {
     // instantiate data api
-    val api = data.API.test
-    // use contract cache to fetch and store contract listing
-    val contractCache = new ContractCache(api)
-    val contractResponse = contractCache.loadEventClasses
-    // the response payload contains the sequence of event classes
-    val eventClasses = contractResponse.payload
+    val api = SampleUtils.getDataAPI
+    val eventClasses = SampleUtils.getEventClasses
     val eventGroups = eventClasses flatMap (_.eventGroups)
     val events = eventGroups flatMap (_.events)
     val contracts = events flatMap (_.contracts)

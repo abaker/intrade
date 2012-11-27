@@ -13,11 +13,9 @@ without violating the policy mentioned above. This is not a robust implementatio
 all file operations are successful.
 */
 
-class ContractCache(private val api: data.API,
-                    private val cache: FileCache) {
+class ContractCache(private val api: data.API, private val cache: FileCache) {
 
-  def this(api: data.API,
-            path: String = "./out/intrade_contracts.xml") = this(api, new FileCache(15, new File(path)))
+  def this(api: data.API, path: String) = this(api, new FileCache(15, new File(path)))
 
   def loadEventClasses = if (cache.refreshNeeded) {
     // get contract listing from intrade

@@ -11,7 +11,7 @@ object API {
 
   def test = create(Environment.Test)
 
-  private def create(env: Environment) = new API {
+  def create(env: Environment) = new API {
     private val urls = new URLProvider(env)
 
     def activeContractListing =

@@ -13,18 +13,6 @@ object API {
   def login(env: Environment, username: String, password: String) =
     send(new URL(Environment.tradingUrl(env)), Requests.getLogin(username, password), Login.apply)
 
-  def prod(appID: String, username: String, password: String) = prod(appID, login(Environment.Live, username, password))
-
-  def prod(appID: String, login: Response[Login]) = prod(appID, login.sessionData)
-
-  def prod(appID: String, sessionData: String) = create(Environment.Live, appID, sessionData)
-
-  def test(appID: String, username: String, password: String) = test(appID, login(Environment.Test, username, password))
-
-  def test(appID: String, login: Response[Login]) = test(appID, login.sessionData)
-
-  def test(appID: String, sessionData: String) = create(Environment.Test, appID, sessionData)
-
   private def send[A](url: URL, request: Node, f: Node => A): Response[A] = {
     val conn = url.openConnection()
     conn.setDoOutput(true)
@@ -43,14 +31,18 @@ object API {
     }
   }
 
-  private def create(env: Environment, appID: String, sessionData: String) = new API {
-    private val url = new URL(Environment.tradingUrl(env))
+  def prod(appID: String, username: String, password: String): API = create(appID, login(Environment.Live, username, password))
+
+  def test(appID: String, username: String, password: String): API = create(appID, login(Environment.Test, username, password))
+
+  def create(appID: String, login: Response[Login]) = new API {
+    private val url = new URL(Environment.tradingUrl(login.payload.exchange))
     private val auth = List(
       <appID>
         {appID}
       </appID>,
       <sessionData>
-        {sessionData}
+        {login.sessionData}
       </sessionData>)
 
     def getBalance = send(Requests.getBalance, Balance.apply)
