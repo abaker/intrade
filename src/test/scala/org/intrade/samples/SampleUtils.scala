@@ -23,8 +23,10 @@ object SampleUtils {
   def getTradingAPI(appID: String) = {
     val credentialCache = new CredentialCache(env, "./out/intrade_%s_credentials.xml" format (env))
     if (credentialCache.invalidCredentials) {
-      val username = scala.Console.readLine("username: ")
-      val password = scala.Console.readLine("password: ")
+      print("username: ")
+      val username = scala.Console.readLine()
+      print("password: ")
+      val password = scala.Console.readLine()
       credentialCache.refreshCredentials(username, password)
     }
     org.intrade.trading.API.create(appID, credentialCache.loadCredentials)
