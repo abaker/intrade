@@ -1,5 +1,5 @@
-[Intrade API]: https://www.intrade.com/v4/misc/help/api/apiDoc.jsp
-[set up SBT]: http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html
+[Intrade API]: https://www.intrade.com/v4/misc/help/api/
+[set up SBT]: http://www.scala-sbt.org/release/docs/Getting-Started/Setup.html#installing-sbt
 [Intrade]: http://www.intrade.com
 [Download]: https://github.com/abaker/intrade/zipball/master
 
