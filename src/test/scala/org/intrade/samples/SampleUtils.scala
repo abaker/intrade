@@ -24,8 +24,10 @@ object SampleUtils {
     val credentialCache = new CredentialCache(env, "./out/intrade_%s_credentials.xml" format (env))
     if (credentialCache.invalidCredentials) {
       print("username: ")
+      Console.flush()
       val username = scala.Console.readLine()
       print("password: ")
+      Console.flush()
       val password = scala.Console.readLine()
       credentialCache.refreshCredentials(username, password)
     }

@@ -8,7 +8,9 @@ import org.intrade.data.PriceInformation
 object DutchBook extends App {
   override def main(args: Array[String]) {
     val tradingAPI = getTradingAPI("DutchBookSample")
-    val eventID = scala.Console.readLine("enter cross margined event id: ")
+    print("enter cross margined event id: ")
+    Console.flush()
+    val eventID = scala.Console.readLine()
     val contractIDs = getContractIDsForEvent(eventID)
     val marketsWithBids = getPricesForContracts(contractIDs).filter(_.bids.nonEmpty)
     val price = sumOfBidPrices(marketsWithBids)
