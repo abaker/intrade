@@ -17,10 +17,10 @@ Follow these instructions to [set up SBT].
 
 [Download] or clone the project from GitHub
 
-# Run the Tests and Samples
+# Run the Samples
 
 From a command prompt navigate to the source directory and execute the following command
 
-        sbt test test:run
+        sbt test:run
 
 SBT will run the unit tests and provide you with a list of samples you may run. The samples run against the Intrade Test server
