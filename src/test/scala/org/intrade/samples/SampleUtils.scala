@@ -4,8 +4,10 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import org.intrade.util.{ContractCache, CredentialCache}
 import org.intrade.Environment
+import java.io.File
 
 object SampleUtils {
+  new File("./out").mkdir()
   private val env = Environment.Test
   private val dataAPI = org.intrade.data.API.create(env)
   private val contractCollection = {
