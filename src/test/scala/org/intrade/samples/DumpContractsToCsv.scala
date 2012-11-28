@@ -6,7 +6,9 @@ import util.ContractCache
 
 object DumpContractsToCsv extends App {
   override def main(args: Array[String]) {
-    val eventClasses = SampleUtils.getEventClasses
+    val eventClasses =
+      getContractCollection
+        .eventClasses
 
     println(
       joinWithCommas(

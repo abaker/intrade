@@ -36,6 +36,9 @@ object API {
   def test(appID: String, username: String, password: String): API = create(appID, login(Environment.Test, username, password))
 
   def create(appID: String, login: Response[Login]) = new API {
+    if(login.resultCode != 0) {
+      throw new RuntimeException(login.faildesc)
+    }
     private val url = new URL(Environment.tradingUrl(login.payload.exchange))
     private val auth = List(
       <appID>
