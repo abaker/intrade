@@ -23,12 +23,8 @@ object SampleUtils {
   def getTradingAPI(appID: String) = {
     val credentialCache = new CredentialCache(env, "./out/intrade_%s_credentials.xml" format (env))
     if (credentialCache.invalidCredentials) {
-      print("username: ")
-      Console.flush()
-      val username = scala.Console.readLine()
-      print("password: ")
-      Console.flush()
-      val password = scala.Console.readLine()
+      val username = prompt("username: ")
+      val password = prompt("password: ")
       credentialCache.refreshCredentials(username, password)
     }
     org.intrade.trading.API.create(appID, credentialCache.loadCredentials)
@@ -38,4 +34,10 @@ object SampleUtils {
 
   def printDate(timestamp: Long) =
     new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSSZ").format(new Date(timestamp).getTime)
+
+  def prompt(message: String) = {
+    print(message)
+    scala.Console.flush()
+    scala.Console.readLine()
+  }
 }
