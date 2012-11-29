@@ -10,15 +10,15 @@ object DutchBook extends App {
     val tradingAPI = getTradingAPI("DutchBookSample")
     val eventID = prompt("enter cross margined event id: ")
     val contractIDs = getContractIDsForEvent(eventID)
-    val marketsWithBids = getPricesForContracts(contractIDs).filter(_.bids.nonEmpty)
+    val markets = getPricesForContracts(contractIDs)
+    val marketsWithBids = markets.filter(_.bids.nonEmpty)
     val price = sumOfBidPrices(marketsWithBids)
-    println("Sum of bid prices for %s: %s" format(eventID, price))
     if (price > 100) {
       val orders = marketsWithBids.map(createSellOrder)
       tradingAPI.multiOrderRequest(orders)
-      println("Submitted %s orders" format (marketsWithBids.size))
+      println("Submitted %s orders, sum of bid prices was %s" format (marketsWithBids.size, price))
     } else {
-      println("No orders submitted")
+      println("No orders submitted, sum of bid prices was %s" format(price))
     }
   }
 
